@@ -1,3 +1,10 @@
 from django.db import models
 
-# Create your models here.
+class Category(models.Model):
+    name = models.TextField(default='')
+
+class History(models.Model):
+    category = models.ForeignKey(Category, default = None , on_delete = models.SET_DEFAULT)
+    name = models.TextField(default='')
+    price = models.PositiveIntegerField(default = 0)
+    

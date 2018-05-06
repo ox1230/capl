@@ -3,6 +3,7 @@ from django.urls import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
+from main.models import Category, History
 from capl.process import Processing
 import re
 
@@ -45,20 +46,60 @@ class AddhistoryTest(TestCase):
         self.assertTemplateUsed(response, 'add_history.html')
 
         
-    def test_can_process_a_add_history_POST_request_and_go_main(self):
+    def test_can_save_and_process_add_history_POST_request_and_go_main(self):
         
+       
+
         present_total_sum = Processing.total_sum
         present_residual = Processing.residual
 
         response = self.client.post(
             '/add_history',
-            data = {'history_category': '거래내역항목',
+            data = {'history_category': '거래내역분류',
                     'history_name' : '거래내역내용',
-                    'history_price' : 100
+                    'history_price' : 1000,
         })
 
-        self.assertEqual(Processing.total_sum, present_total_sum + 100)
-        self.assertEqual(Processing.residual, present_residual - 100)
+        saved_history = History.objects.first()
+
+        self.assertEqual(saved_history.category.name ,'거래내역분류' )
+        self.assertEqual(saved_history.name , '거래내역내용')
+        self.assertEqual(saved_history.price , 1000)
+
+        self.assertEqual(Processing.total_sum, present_total_sum + 1000)
+        self.assertEqual(Processing.residual, present_residual - 1000)
         
         self.assertRedirects(response, '/main/')
+
+class MainAndItemModelTest(TestCase):
+    
+    def test_saving_and_retrieving_items(self):
+        cate_ = Category.objects.create(name = '거래내역분류')
         
+        first_history = History()
+        first_history.category = cate_
+        first_history.name = '첫번째 내역'
+        first_history.price = 1000
+        first_history.save()
+
+        second_history = History()
+        second_history.name = '두번째 내역'
+        second_history.category = cate_
+        second_history.price = 2000
+        second_history.save()
+    
+        saved_cate = Category.objects.first()
+        self.assertEqual(saved_cate, cate_)
+
+        saved_history = History.objects.all()
+        self.assertEqual(saved_history.count(), 2)
+
+        first_saved_history = saved_history[0]
+        second_saved_history = saved_history[1]
+        self.assertEqual(first_saved_history.name, '첫번째 내역')
+        self.assertEqual(first_saved_history.category , cate_)
+        self.assertEqual(first_saved_history.price ,1000)
+        self.assertEqual(second_saved_history.name, '두번째 내역')
+        self.assertEqual(second_saved_history.category , cate_)
+        self.assertEqual(second_saved_history.price , 2000)
+

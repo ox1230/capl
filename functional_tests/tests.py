@@ -36,7 +36,7 @@ class VisitorTest(LiveServerTestCase):
         add_history_menu = self.browser.find_element_by_id("add_history_menu")
         add_history_menu.click()
 
-        time.sleep(3)
+        time.sleep(2)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/add_history/')
 
@@ -49,6 +49,7 @@ class VisitorTest(LiveServerTestCase):
         
         # 다시 메인 화면으로 돌아가지고, 현재 사용금액등이 변경되어 있다.   (사용금액 1500원,    사용가능금액 298500)
         # (계속 입력은 아직 추가 x)
+       
         present_box = self.browser.find_element_by_id("present_box")
         rows = present_box.find_elements_by_tag_name('tr')
         self.assertIn('현재 사용금액 1500원', [row.text for row in rows])
