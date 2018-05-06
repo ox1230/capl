@@ -12,7 +12,9 @@ def home_page(request:HttpRequest):
     })
 
 def add_history_page(request:HttpRequest):
-    return render(request, 'add_history.html')
+    return render(request, 'add_history.html',{
+        'category_list' : Category.objects.all(),
+    })
 
 def add_history_action(request:HttpRequest):
     

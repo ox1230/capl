@@ -8,7 +8,11 @@
            <form method = "POST" action = '/add_history'>
                 <fieldset>
                     <legend>거래내역 입력하기</legend>
-                    분류<br><input id = "history_category_inputBox" name = "history_category"/><br><br>
+                    분류<br><select id = "history_category_inputBox" name = "history_category" /> 
+                        {% for cate in category_list %}
+                        <option>{{ cate.name }}</option>
+                        {% endfor %}
+                    </select><br><br>
                     내용<br><input id = "history_name_inputBox" name = "history_name"/><br><br>
                     가격(숫자로 입력)<br><input id = "history_price_inputBox" name = "history_price"  type = 'number'/><br><br> 
                     {% csrf_token %}
