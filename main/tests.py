@@ -7,8 +7,12 @@ from capl.process import Processing
 import re
 
 # Create your tests here.
+def remove_csrf_tag(text):
+    """Remove csrf tag from TEXT"""
+    return re.sub(r'<[^>]*csrfmiddlewaretoken[^>]*>', '', text)
+    
 
-class MainViewTest(LiTestCase):
+class MainViewTest(TestCase):
     def test_root_url_resolves_to_home_page_view(self):
         response = self.client.get('', data =  {
             'total_sum': Processing.total_sum , 'residual': Processing.residual
@@ -29,10 +33,13 @@ class MainViewTest(LiTestCase):
             'total_sum': Processing.total_sum , 'residual': Processing.residual
         })
         
-        self.assertEqual(self.remove_csrf_tag(response.content.decode()), self.remove_csrf_tag(expected_html))
+        self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
 
 
 
-    def remove_csrf_tag(self,text):
-        """Remove csrf tag from TEXT"""
-        return re.sub(r'<[^>]*csrfmiddlewaretoken[^>]*>', '', text)
+
+class AddItemTest(TestCase):
+    def test_add_item_url_resolve_add_item_page(self):
+        response = self.client.get('/add_item/')  
+
+        self.assertTemplateUsed(response, 'add_item.html')

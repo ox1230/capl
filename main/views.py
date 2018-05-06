@@ -9,3 +9,6 @@ def home_page(request:HttpRequest):
         'total_sum': Processing.total_sum,
         'residual': Processing.residual,
     })
+
+def add_item(request:HttpRequest):
+    return render(request, 'add_item.html')
