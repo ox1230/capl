@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <Title>Cash Planner</Title>
+    </head>
+    <body>
+        <h2> 거래내역 입력 </h2>
+       
+           <form method = "POST" action = '/add_history'>
+                <fieldset>
+                    <legend>거래내역 입력하기</legend>
+                    항목<br><input id = "history_category_inputBox" name = "history_category"/><br><br>
+                    내용<br><input id = "history_name_inputBox" name = "history_name"/><br><br>
+                    가격(숫자로 입력)<br><input id = "history_price_inputBox" name = "history_price"  type = 'number'/><br><br> 
+                    {% csrf_token %}
+                    <button id = "add_history_button">제출</button>
+                </fieldset>
+            </form>
+    </body>
+</html>

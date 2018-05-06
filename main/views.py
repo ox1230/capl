@@ -10,5 +10,11 @@ def home_page(request:HttpRequest):
         'residual': Processing.residual,
     })
 
-def add_item(request:HttpRequest):
-    return render(request, 'add_item.html')
+def add_history_page(request:HttpRequest):
+    return render(request, 'add_history.html')
+
+def add_history_action(request:HttpRequest):
+    Processing.total_sum += int(request.POST['history_price'])
+    Processing.residual -= int(request.POST['history_price'])
+
+    return redirect('main/')

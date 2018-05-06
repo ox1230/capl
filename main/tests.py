@@ -38,8 +38,27 @@ class MainViewTest(TestCase):
 
 
 
-class AddItemTest(TestCase):
-    def test_add_item_url_resolve_add_item_page(self):
-        response = self.client.get('/add_item/')  
+class AddhistoryTest(TestCase):
+    def test_add_history_url_resolve_add_history_page_correctly(self):
+        response = self.client.get('/add_history/')  
 
-        self.assertTemplateUsed(response, 'add_item.html')
+        self.assertTemplateUsed(response, 'add_history.html')
+
+        
+    def test_can_process_a_add_history_POST_request_and_go_main(self):
+        
+        present_total_sum = Processing.total_sum
+        present_residual = Processing.residual
+
+        response = self.client.post(
+            '/add_history',
+            data = {'history_category': '거래내역항목',
+                    'history_name' : '거래내역내용',
+                    'history_price' : 100
+        })
+
+        self.assertEqual(Processing.total_sum, present_total_sum + 100)
+        self.assertEqual(Processing.residual, present_residual - 100)
+        
+        self.assertRedirects(response, '/main/')
+        
