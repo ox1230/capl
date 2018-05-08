@@ -4,4 +4,7 @@ add_history으로 이동하게 만들기  -- clear
 history, category 테이블 구성  & refactoring -- clear
 category는 있는 것만 선택 가능하도록 구성   -- clear
 
+
+각 category별 사용가능금액 표시
+
 Processing의 total class를 구성해서 toal method의 유효성 검사가 가능하도록 refactoring
