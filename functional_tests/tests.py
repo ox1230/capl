@@ -62,6 +62,8 @@ class VisitorTest(LiveServerTestCase):
         
         
         #이어서 세끼, 짜장상회, 4000원을 입력한다.
+        add_history_menu = self.browser.find_element_by_id("add_history_menu")
+        add_history_menu.click()
         self.browser.find_element_by_id("history_category_inputBox").send_keys('세끼')
         self.browser.find_element_by_id("history_name_inputBox").send_keys('짜장상회')
         self.browser.find_element_by_id("history_price_inputBox").send_keys('4500')
@@ -72,12 +74,12 @@ class VisitorTest(LiveServerTestCase):
        
         time.sleep(1)
         rows_text = self.find_rows_from_table_id("present_box")
-        self.assertIn('현재 사용금액 1500원', rows_text)
+        self.assertIn('현재 사용금액 6000원', rows_text)
         self.assertIn('남은 금액 294000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
         self.assertIn('군것질 98500원', rows_text)
-        self.assertIn('세끼 96000원', rows_text)
+        self.assertIn('세끼 95500원', rows_text)
         self.assertIn('선물 100000원', rows_text)
 
 

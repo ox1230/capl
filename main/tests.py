@@ -15,8 +15,12 @@ def remove_csrf_tag(text):
 
 class MainViewTest(TestCase):
     def test_root_url_resolves_to_home_page_view(self):
+        Category.objects.create(name = 'test')
+       
         response = self.client.get('', data =  {
-            'total_sum': Processing.total_sum , 'residual': Processing.residual
+            'total_sum': Processing.total_sum , 
+            'residual': Processing.residual,
+            'categories' : Category.objects.all(),
         })  
 
         self.assertTemplateUsed(response, 'home.html')
@@ -24,6 +28,7 @@ class MainViewTest(TestCase):
     
 
     def test_home_page_returns_correct_html_first(self):        
+        Category.objects.create(name = 'test')
 
         
         request = HttpRequest()      # 사용자가 보낸 요청 확인
@@ -31,7 +36,9 @@ class MainViewTest(TestCase):
         
         expected_html = render_to_string('home.html', request = request, context = 
         {
-            'total_sum': Processing.total_sum , 'residual': Processing.residual
+            'total_sum': Processing.total_sum ,
+             'residual': Processing.residual,
+             'categories' : Category.objects.all(),
         })
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
@@ -57,6 +64,7 @@ class AddhistoryTest(TestCase):
     def test_can_save_and_process_add_history_POST_request_and_go_main(self):
         
         cate_ = Category.objects.create(name = '거래내역분류')
+        self.assertEqual(cate_.residual, 100000)
 
         present_total_sum = Processing.total_sum
         present_residual = Processing.residual
@@ -77,40 +85,12 @@ class AddhistoryTest(TestCase):
         self.assertEqual(Processing.total_sum, present_total_sum + 1000)
         self.assertEqual(Processing.residual, present_residual - 1000)
         
+        cate_ = Category.objects.get(name = '거래내역분류')
+        self.assertEqual(cate_.residual, 100000 - 1000)
+
         self.assertRedirects(response, '/main/')
 
 class MainAndItemModelTest(TestCase):
-    
-    def test_saving_and_retrieving_items(self):
-        cate_ = Category.objects.create(name = '거래내역분류')
-        
-        first_history = History()
-        first_history.category = cate_
-        first_history.name = '첫번째 내역'
-        first_history.price = 1000
-        first_history.save()
-
-        second_history = History()
-        second_history.name = '두번째 내역'
-        second_history.category = cate_
-        second_history.price = 2000
-        second_history.save()
-    
-        saved_cate = Category.objects.first()
-        self.assertEqual(saved_cate, cate_)
-
-        saved_history = History.objects.all()
-        self.assertEqual(saved_history.count(), 2)
-
-        first_saved_history = saved_history[0]
-        second_saved_history = saved_history[1]
-        self.assertEqual(first_saved_history.name, '첫번째 내역')
-        self.assertEqual(first_saved_history.category , cate_)
-        self.assertEqual(first_saved_history.price ,1000)
-        self.assertEqual(second_saved_history.name, '두번째 내역')
-        self.assertEqual(second_saved_history.category , cate_)
-        self.assertEqual(second_saved_history.price , 2000)
-
     
     def test_processing_add_history(self):
         Category.objects.create(name = '첫번째분류')
@@ -121,7 +101,8 @@ class MainAndItemModelTest(TestCase):
         self.assertEqual(100000, cate.residual)
 
         Processing.add_history("첫번째분류","거래내역",1000)
+        cate = Category.objects.first()
         self.assertEqual("첫번째분류", cate.name)
-        self.assertEqual(100000, cate.residual)
+        self.assertEqual(99000, cate.residual)
 
         
