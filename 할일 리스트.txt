@@ -5,6 +5,7 @@ history, category 테이블 구성  & refactoring -- clear
 category는 있는 것만 선택 가능하도록 구성   -- clear
 
 
-각 category별 사용가능금액 표시
+각 category별 사용가능금액 표시  -- clear
 
+날짜 불러와서 현재 날짜 표시하고 일주일마다 리셋 
 Processing의 total class를 구성해서 toal method의 유효성 검사가 가능하도록 refactoring
