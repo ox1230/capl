@@ -101,8 +101,10 @@ class VisitorTest(LiveServerTestCase):
         add_history_menu = self.browser.find_element_by_id("add_history_menu")
         add_history_menu.click()
 
+        time.sleep(1)
         add_history_box = self.browser.find_element_by_id("normally_add_history_box")
-          self.assertAlmostEqual(
+        print(add_history_box.location['x'], "   ", add_history_box.size['width'])
+        self.assertAlmostEqual(
             add_history_box.location['x'] + add_history_box.size['width']/2,
             512,
             delta = 10

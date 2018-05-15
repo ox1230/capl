@@ -1,16 +1,30 @@
 {% extends "base.html" %}
 
 {% block body_block %}
-<table id = "present_box" class = "">
-    <tr id = "total_sum"><td>현재 사용금액</td><td>{{total_sum}}원 </td></tr>
-    <tr id = "residual"><td>남은 금액</td><td>{{residual}}원</td></tr>
-</table>
-<a id = "add_history_menu" href = "/add_history/">거래내역 입력</a>
-<hr>
-<table id = "detail_box">
-    <tr><td>분류</td><td>남은 금액</td></tr>
-{% for cate in categories %}
-    <tr id = {{cate.name}}>><td>{{cate.name}}</td><td>{{cate.residual}}원</td></tr>
-{% endfor %}
-</table>
+<div class = "container">
+    <div class = "row">
+        <div class ="col-md-6 col-md-offset-3 jumbotron">
+            <div class = "text-center">
+                <h2>Cash Planner</h2>
+                <table id = "present_box" class = "col-md-6 col-md-offset-3">
+                    <tr id = "total_sum"><td>현재 사용금액</td><td>{{total_sum}}원 </td></tr>
+                    <tr id = "residual"><td>남은 금액</td><td>{{residual}}원</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class = "row">
+        <a id = "add_history_menu" href = "/add_history/" class = "col-md-6 col-md-offset-3">거래내역 입력</a>
+    </div>
+    <div class = "row">
+        <div class = "col-md-6 col-md-offset-3 jumbotron">
+            <table id = "detail_box" class = "col-md-6 col-md-offset-3">
+                <tr><td>분류</td><td>남은 금액</td></tr>
+            {% for cate in categories %}
+                <tr id = {{cate.name}}>><td>{{cate.name}}</td><td>{{cate.residual}}원</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock body_block %}

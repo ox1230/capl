@@ -1,0 +1,6 @@
+Python 3.5 (Anaconda 4.2.0)
+Django 2.0.4
+Bootstrap v3.3.2 
+
+
+배포시 static 설정 고려할것(https://blog.hannal.com/2015/04/start_with_django_webframework_06/)
