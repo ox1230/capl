@@ -10,7 +10,7 @@ class VisitorTest(LiveServerTestCase):
     def setUp(self):
         """테스트 시작 전에 수행"""
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)   # 암묵적 대기 -- 3초
+        self.browser.implicitly_wait(1)   # 암묵적 대기 -- 1초
         
         #미리 설정되어 있는 데이터
         Category.objects.create(name = '군것질')
@@ -82,9 +82,35 @@ class VisitorTest(LiveServerTestCase):
         self.assertIn('세끼 95500원', rows_text)
         self.assertIn('선물 100000원', rows_text)
 
+    def test_layout_and_styling(self):
+        """layout전체가 아니라 css가 제대로 붙어졌는지 정도를 체크함"""
+        #에디스는 일반 컴퓨터로 메인페이지를 방문한다
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size( 1024,768 )
+
+        #에디스는 현재상황 표시 메인 상자가 가운데 위치한것을 확인한다.
+        present_box = self.browser.find_element_by_id('present_box')
+
+        self.assertAlmostEqual(
+            present_box.location['x'] + present_box.size['width']/2,
+            512,
+            delta = 10
+        )
+
+        #에디스는 add_history 상자도 가운데 위치한것을 확인한다.
+        add_history_menu = self.browser.find_element_by_id("add_history_menu")
+        add_history_menu.click()
+
+        add_history_box = self.browser.find_element_by_id("normally_add_history_box")
+          self.assertAlmostEqual(
+            add_history_box.location['x'] + add_history_box.size['width']/2,
+            512,
+            delta = 10
+        )
 
     def find_rows_from_table_id(self, id):
         """id에서 tr을 뽑아낸 후 각 row에서 text를 뽑아내 리스트로 만들어 리턴한다."""
         table = self.browser.find_element_by_id(id)
         rows = table.find_elements_by_tag_name('tr')
         return [row.text for row in rows]
+        
