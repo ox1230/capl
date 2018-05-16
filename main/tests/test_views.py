@@ -14,7 +14,8 @@ def remove_csrf_tag(text):
     
 
 class MainViewTest(TestCase):
-    def test_root_url_resolves_to_home_page_view(self):
+
+    def test_root_url_resolves_to_main_url(self):
         Category.objects.create(name = 'test')
        
         response = self.client.get('', data =  {
@@ -23,9 +24,8 @@ class MainViewTest(TestCase):
             'categories' : Category.objects.all(),
         })  
 
-        self.assertTemplateUsed(response, 'home.html')
-
-    
+        self.assertRedirects(response, '/main/')
+        print(repr(response))
 
     def test_home_page_returns_correct_html_first(self):        
         Category.objects.create(name = 'test')
@@ -42,9 +42,6 @@ class MainViewTest(TestCase):
         })
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
-
-
-
 
 class AddhistoryTest(TestCase):
     def test_add_history_url_resolve_add_history_page_correctly(self):

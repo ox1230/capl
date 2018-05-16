@@ -4,6 +4,9 @@ from capl.process import Processing
 from main.models import History, Category
 # Create your views here.
 
+def root(request:HttpRequest):
+    return redirect('main')
+
 def home_page(request:HttpRequest):
     
     return render(request, 'home.html',
@@ -22,7 +25,6 @@ def add_history(request:HttpRequest):
             Category.objects.create(name = cate_name)
         
         Processing.add_history(cate_name,request.POST['history_name'], int(request.POST['history_price']))
-
         return redirect('main')
     
     else:
