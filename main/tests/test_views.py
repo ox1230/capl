@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
-from capl.process import Processing
+from main.process import Processing
 import re
 
 # Create your tests here.
@@ -19,8 +19,8 @@ class MainViewTest(TestCase):
         Category.objects.create(name = 'test')
        
         response = self.client.get('', data =  {
-            'total_sum': Processing.total_sum , 
-            'residual': Processing.residual,
+            'total_sum': Processing.get_total_sum() , 
+            'residual': Processing.get_total_residual(),
             'categories' : Category.objects.all(),
         })  
 
@@ -36,8 +36,8 @@ class MainViewTest(TestCase):
         
         expected_html = render_to_string('home.html', request = request, context = 
         {
-            'total_sum': Processing.total_sum ,
-             'residual': Processing.residual,
+            'total_sum': Processing.get_total_sum() ,
+             'residual': Processing.get_total_residual(),
              'categories' : Category.objects.all(),
         })
         

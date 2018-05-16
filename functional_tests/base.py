@@ -13,9 +13,9 @@ class FuntionalTest(LiveServerTestCase):
         self.browser.implicitly_wait(1)   # 암묵적 대기 -- 1초
         
         #미리 설정되어 있는 데이터
-        Category.objects.create(name = '군것질')
-        Category.objects.create(name = '세끼')
-        Category.objects.create(name = '기타')
+        Category.objects.create(name = '군것질', assigned = 100000)
+        Category.objects.create(name = '세끼', assigned = 100000)
+        Category.objects.create(name = '기타', assigned = 100000)
 
         
     

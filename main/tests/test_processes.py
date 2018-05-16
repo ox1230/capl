@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
-from capl.process import Processing
+from main.process import Processing
 import re
 
 # Create your tests here.
@@ -13,6 +13,21 @@ def remove_csrf_tag(text):
     return re.sub(r'<[^>]*csrfmiddlewaretoken[^>]*>', '', text)
 
 class ProcessingTest(TestCase):
-    pass
+    
+    def test_can_process_total_assigned(self):
+        Category.objects.create(name ="1", assigned = 1000)
+        Category.objects.create(name ="2", assigned = 1500)
+        Category.objects.create(name ="3", assigned = 1000)
 
+        self.assertEqual(Processing.get_total_assigned(), 3500)
+    
+    def test_can_process_total_residual(self):
+        cate = Category.objects.create(name ="1", assigned = 1000)
+        Category.objects.create(name ="2", assigned = 1500)
+        
+        History.objects.create(category = cate, name="1", price = 600)
+
+        self.assertEqual(Processing.get_total_assigned(), 2500)
+        self.assertEqual(Processing.get_total_residual(), 1900)
+        
         

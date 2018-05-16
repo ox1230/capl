@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
-from capl.process import Processing
+from main.process import Processing
 import re
 
 # Create your tests here.
@@ -12,7 +12,7 @@ def remove_csrf_tag(text):
     """Remove csrf tag from TEXT"""
     return re.sub(r'<[^>]*csrfmiddlewaretoken[^>]*>', '', text)
 
-class MainAndItemModelTest(TestCase):
+class HistoryModelTest(TestCase):
     
     def test_processing_add_history(self):
         Category.objects.create(name = '첫번째분류')
@@ -32,6 +32,16 @@ class MainAndItemModelTest(TestCase):
         hist = History.objects.create(category = cate)
         self.assertEqual(hist.get_absolute_url(), '/add_history/')
 
+class CategoryModelTest(TestCase):
+    def test_can_insert_category_well(self):
+        name = "첫번째"
+        assigned = 100000
+        Category.objects.create(name = name, assigned = assigned)
+
+        cate = Category.objects.first()
+
+        self.assertEqual(cate.assigned , assigned)
+        self.assertEqual(cate.name , name)
         
         
 
