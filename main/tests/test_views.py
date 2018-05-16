@@ -25,7 +25,7 @@ class MainViewTest(TestCase):
         })  
 
         self.assertRedirects(response, '/main/')
-        print(repr(response))
+
 
     def test_home_page_returns_correct_html_first(self):        
         Category.objects.create(name = 'test')
