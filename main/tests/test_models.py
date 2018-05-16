@@ -27,4 +27,12 @@ class MainAndItemModelTest(TestCase):
         self.assertEqual("첫번째분류", cate.name)
         self.assertEqual(99000, cate.residual)
 
+    def test_get_absolute_url_from_history(self):
+        cate =  Category.objects.create(name = '첫번째분류')
+        hist = History.objects.create(category = cate)
+        self.assertEqual(hist.get_absolute_url(), '/add_history/')
+
+        
+        
+
         
