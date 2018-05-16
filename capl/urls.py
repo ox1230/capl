@@ -19,8 +19,7 @@ from main import views
 
 urlpatterns = [
     path('', views.home_page),
-    path('main/', views.home_page),
-    path('add_history/', views.add_history_page),
-    path('add_history', views.add_history_action),
+    path('main/', views.home_page, name= "main"),
+    path('add_history/', views.add_history, name = "add_history"),
     path('admin/', admin.site.urls),
 ]

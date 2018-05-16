@@ -70,7 +70,7 @@ class AddhistoryTest(TestCase):
         present_residual = Processing.residual
 
         response = self.client.post(
-            '/add_history',
+            '/add_history/',
             data = {'history_category': cate_.name,
                     'history_name' : '거래내역내용',
                     'history_price' : 1000,
