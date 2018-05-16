@@ -90,19 +90,5 @@ class AddhistoryTest(TestCase):
 
         self.assertRedirects(response, '/main/')
 
-class MainAndItemModelTest(TestCase):
-    
-    def test_processing_add_history(self):
-        Category.objects.create(name = '첫번째분류')
-        
-        cate = Category.objects.first()
-
-        self.assertEqual("첫번째분류", cate.name)
-        self.assertEqual(100000, cate.residual)
-
-        Processing.add_history("첫번째분류","거래내역",1000)
-        cate = Category.objects.first()
-        self.assertEqual("첫번째분류", cate.name)
-        self.assertEqual(99000, cate.residual)
 
         
