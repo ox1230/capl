@@ -63,8 +63,6 @@ class AddhistoryTest(TestCase):
         cate_ = Category.objects.create(name = '거래내역분류')
         self.assertEqual(cate_.residual, 100000)
 
-        present_total_sum = Processing.total_sum
-        present_residual = Processing.residual
 
         response = self.client.post(
             '/add_history/',
@@ -78,12 +76,6 @@ class AddhistoryTest(TestCase):
         self.assertEqual(saved_history.category ,cate_ )
         self.assertEqual(saved_history.name , '거래내역내용')
         self.assertEqual(saved_history.price , 1000)
-
-        self.assertEqual(Processing.total_sum, present_total_sum + 1000)
-        self.assertEqual(Processing.residual, present_residual - 1000)
-        
-        cate_ = Category.objects.get(name = '거래내역분류')
-        self.assertEqual(cate_.residual, 100000 - 1000)
 
         self.assertRedirects(response, '/main/')
 
