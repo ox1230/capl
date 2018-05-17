@@ -5,6 +5,8 @@ from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
 from main.process import Processing
+
+from datetime import date, timedelta
 import re
 
 # Create your tests here.
@@ -21,14 +23,16 @@ class ProcessingTest(TestCase):
 
         self.assertEqual(Processing.get_total_assigned(), 3500)
     
-    def test_can_process_total_residual(self):
-        cate = Category.objects.create(name ="1", assigned = 1000)
-        Category.objects.create(name ="2", assigned = 1500)
+    def test_can_process_total_residual_well(self):
+        cate = Category.objects.create(name ="1", assigned = 5000)
+        Category.objects.create(name ="2", assigned = 5000)
         
-        History.objects.create(category = cate, name="1", price = 600)
 
-        self.assertEqual(Processing.get_total_assigned(), 2500)
-        self.assertEqual(Processing.get_total_residual(), 1900)
+        History.objects.create(category = cate, name="1", price = 2000, written_date = date.today())
+        History.objects.create(category = cate, name="2", price = 2000, written_date = date.today()- timedelta(days=10))
+
+        self.assertEqual(Processing.get_total_assigned(), 10000)
+        self.assertEqual(Processing.get_total_residual(date.today()), 8000)
     
     def test_can_process_each_categories_residual(self):
         cate1 = Category.objects.create(name ="1", assigned = 10000)

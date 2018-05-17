@@ -43,8 +43,8 @@ class AlreadyVisitorTest(FuntionalTest):
        
         time.sleep(1)
         rows_text = self.find_rows_from_table_id("present_box")
-        self.assertIn('현재 사용금액 6000원', rows_text)
-        self.assertIn('남은 금액 294000원', rows_text )
+        self.assertIn('사용한 돈 6000원', rows_text)
+        self.assertIn('남은 돈 294000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
         self.assertIn('군것질 98500원', rows_text)
@@ -69,8 +69,8 @@ class AlreadyVisitorTest(FuntionalTest):
         # 메인에는 아무것도 바뀌어있지 않다.
         time.sleep(1)
         rows_text = self.find_rows_from_table_id("present_box")
-        self.assertIn('현재 사용금액 0원', rows_text)
-        self.assertIn('남은 금액 300000원', rows_text )
+        self.assertIn('사용한 돈 0원', rows_text)
+        self.assertIn('남은 돈 300000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
         self.assertIn('군것질 100000원', rows_text)

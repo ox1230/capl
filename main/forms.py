@@ -10,19 +10,19 @@ class HistoryForm(forms.models.ModelForm):
             'category': forms.fields.Select(
                 attrs = {
                      'id' : "history_category_inputBox",    
-                     'class' : "form-control input-lg",
+                     'class' : "form-control input",
                 }
             ),
             'name' : forms.fields.TextInput(
                 attrs={
                     'id' : 'history_name_inputBox',
-                     'class' : "form-control input-lg",
+                     'class' : "form-control input",
                 }
             ),
             'price': forms.fields.NumberInput(
                 attrs = {
                     'id' : 'history_price_inputBox',
-                    'class': "form-control input-lg",
+                    'class': "form-control input",
 
                 }
             ),

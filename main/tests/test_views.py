@@ -51,15 +51,6 @@ class MainViewTest(TestCase):
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
 
-    def test_main_display_current_date(self):
-        today = date.today()
-
-        request = HttpRequest()      # 사용자가 보낸 요청 확인
-        response = home_page(request)   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
-
-        self.assertIn( today.strftime(NORMAL_DATE_FORMAT), response)
-
-
 
 class AddhistoryTest(TestCase):
     def test_add_history_url_resolve_add_history_page_correctly(self):
@@ -75,7 +66,6 @@ class AddhistoryTest(TestCase):
         self.assertContains(response,'거래내역분류')
 
 
-        
     def test_can_save_and_process_add_history_POST_request_and_go_main(self):
         
         cate_ = Category.objects.create(name = '거래내역분류')

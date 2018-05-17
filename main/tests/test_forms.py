@@ -24,7 +24,7 @@ class HistoryFormTest(TestCase):
     def test_form_item_input_has_css_classes(self):
         form = HistoryForm()
         
-        self.assertIn('class="form-control input-lg"',form.as_p())
+        self.assertIn('class="form-control input"',form.as_p())
         self.assertIn('select',form.as_p())
     
     def test_form_validation_for_blank(self):

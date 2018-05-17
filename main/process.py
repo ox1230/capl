@@ -1,5 +1,7 @@
-from main.models import Category, History
 
+from main.models import Category, History
+from django.utils import timezone
+from datetime import date, timedelta
 
 
 class Processing():
@@ -18,10 +20,18 @@ class Processing():
     
 
     @classmethod
-    def get_total_sum(cls):
-        assigned = Processing.get_total_assigned()
+    def get_total_sum(cls, today= date.today()):
+        weekday = today.weekday()
+        # 일요일: 0, 토요일: 6
+        if weekday == 6:
+            weekday = 0
+        else:
+            weekday += 1
+        week_start_date = today + timedelta(days = -weekday)
+        week_end_date = week_start_date + timedelta(days = 6)
 
-        histories = History.objects.all()
+        assigned = Processing.get_total_assigned()
+        histories = History.objects.filter(written_date__range=(week_start_date, week_end_date))
 
         ret = sum([ hist.price for hist in histories])
 
@@ -30,8 +40,8 @@ class Processing():
         return ret
         
     @classmethod
-    def get_total_residual(cls):
-        return Processing.get_total_assigned() - Processing.get_total_sum()        
+    def get_total_residual(cls, today=date.today() ):
+        return Processing.get_total_assigned() - Processing.get_total_sum(today)        
         
     @classmethod
     def get_category_residual(cls,cate : Category):

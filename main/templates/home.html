@@ -4,24 +4,25 @@
 <div class = "container">
     <div class ="page header text-center"><h1>Cash Planner</h1></div>
     <div class = "row">
-        <div class ="col-md-6 col-md-offset-3 jumbotron">
-            <h4>{{today_date}}</h4>
+        <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
+            <h3>{{today_date}}</h3>
+            <h5>이번주에</h5>
             <div class = "text-center">
                 <table id = "present_box" class = "col-xs-12 table-bordered">
-                    <tr id = "total_sum"><td>현재 사용금액</td><td>{{total_sum}}원 </td></tr>
-                    <tr id = "residual"><td>남은 금액</td><td>{{residual}}원</td></tr>
+                    <tr id = "total_sum"><td>사용한 돈</td><td>{{total_sum}}원 </td></tr>
+                    <tr id = "residual"><td>남은 돈</td><td>{{residual}}원</td></tr>
                 </table>
             </div>
         </div>
     </div>
     
     <div class ="row">
-        <div class ="col-md-6 col-md-offset-3">
-        <a id = "add_history_menu"  href = "{% url 'add_history' %}" role ="button" class ="btn btn-info col-xs-offset-10">기록하기</a>        </div>
+        <div class ="col-xs-12 col-md-6 col-md-offset-3">
+        <a id = "add_history_menu"  href = "{% url 'add_history' %}" role ="button" class ="btn col-xs-offset-10">기록하기</a>
         </div>
 
     <div class = "row">
-        <div class = "col-md-6 col-md-offset-3 jumbotron">
+        <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">
             <table id = "detail_box" class = "col-xs-12 table-bordered">
                 <tr><td>분류</td><td>남은 금액</td></tr>
             {% for cate , resid in resid_of_cates.items %}
