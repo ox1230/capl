@@ -23,8 +23,8 @@
         <div class = "col-md-6 col-md-offset-3 jumbotron">
             <table id = "detail_box" class = "col-xs-12 table-bordered">
                 <tr><td>분류</td><td>남은 금액</td></tr>
-            {% for cate in categories %}
-                <tr id = {{cate.name}}>><td>{{cate.name}}</td><td>{{cate.residual}}원</td></tr>
+            {% for cate , resid in resid_of_cates.items %}
+                <tr id = {{cate.name}}>><td>{{cate.name}}</td><td>{{ resid }}원</td></tr>
             {% endfor %}
             </table>
         </div>

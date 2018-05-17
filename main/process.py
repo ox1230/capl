@@ -33,6 +33,12 @@ class Processing():
     def get_total_residual(cls):
         return Processing.get_total_assigned() - Processing.get_total_sum()        
         
+    @classmethod
+    def get_category_residual(cls,cate : Category):
+        hists_of_cate = History.objects.filter(category = cate)
 
+        total = sum([hist.price for hist in hists_of_cate])
+
+        return cate.assigned - total
 
         

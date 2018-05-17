@@ -9,12 +9,16 @@ def root(request:HttpRequest):
     return redirect('main')
 
 def home_page(request:HttpRequest):
-    
+    cates = Category.objects.exclude(assigned = None)
+    resid_of_cates = {}
+    for cate in cates:
+        resid_of_cates[cate] = Processing.get_category_residual(cate)
+
     return render(request, 'home.html',
     {
         'total_sum': Processing.get_total_sum(),
         'residual': Processing.get_total_residual(),
-        'categories': Category.objects.all(),
+        'resid_of_cates': resid_of_cates,
     })
 
 def add_history(request:HttpRequest):

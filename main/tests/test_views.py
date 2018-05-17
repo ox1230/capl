@@ -34,11 +34,16 @@ class MainViewTest(TestCase):
         request = HttpRequest()      # 사용자가 보낸 요청 확인
         response = home_page(request)   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
         
+        cates = Category.objects.exclude(assigned = None)
+        resid_of_cates = {}
+        for cate in cates:
+            resid_of_cates[cate] = Processing.get_category_residual(cate)
+
         expected_html = render_to_string('home.html', request = request, context = 
         {
             'total_sum': Processing.get_total_sum() ,
-             'residual': Processing.get_total_residual(),
-             'categories' : Category.objects.all(),
+            'residual': Processing.get_total_residual(),
+            'resid_of_cates': resid_of_cates,
         })
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))

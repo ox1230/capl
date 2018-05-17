@@ -29,5 +29,12 @@ class ProcessingTest(TestCase):
 
         self.assertEqual(Processing.get_total_assigned(), 2500)
         self.assertEqual(Processing.get_total_residual(), 1900)
+    
+    def test_can_process_each_categories_residual(self):
+        cate1 = Category.objects.create(name ="1", assigned = 10000)
+        cate2 = Category.objects.create(name ="2", assigned = 10000)
         
+        History.objects.create(category = cate1, name="1", price = 6000)
         
+        self.assertEqual(Processing.get_category_residual(cate1), 4000)
+        self.assertEqual(Processing.get_category_residual(cate2), 10000)
