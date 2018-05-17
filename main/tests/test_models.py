@@ -15,14 +15,14 @@ def remove_csrf_tag(text):
 class HistoryModelTest(TestCase):
     
     def test_processing_add_history(self):
-        Category.objects.create(name = '첫번째분류')
+        ori_cate = Category.objects.create(name = '첫번째분류')
         
         cate = Category.objects.first()
 
         self.assertEqual("첫번째분류", cate.name)
         self.assertEqual(100000, cate.residual)
 
-        Processing.add_history("첫번째분류","거래내역",1000)
+        Processing.add_history(ori_cate.id,"거래내역",1000)
         cate = Category.objects.first()
         self.assertEqual("첫번째분류", cate.name)
         self.assertEqual(99000, cate.residual)

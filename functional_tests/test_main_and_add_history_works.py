@@ -30,7 +30,7 @@ class AlreadyVisitorTest(FuntionalTest):
         
         
         #이어서 세끼, 짜장상회, 4000원을 입력한다.
-        time.sleep(1)
+        time.sleep(3)
         add_history_menu = self.browser.find_element_by_id("add_history_menu")
         add_history_menu.click()
         self.browser.find_element_by_id("history_category_inputBox").send_keys('세끼')

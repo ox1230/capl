@@ -21,7 +21,7 @@ class HistoryFormTest(TestCase):
         form = HistoryForm()
         self.fail(form.as_p())
 
-    def test_form_item_input_has_placeholder_and_css_classes(self):
+    def test_form_item_input_has_css_classes(self):
         form = HistoryForm()
         
         self.assertIn('class="form-control input-lg"',form.as_p())

@@ -8,13 +8,7 @@
             <div class = "text-center">
                 <form method = "POST" action = '{% url "add_history" %}'>
                     <fieldset id = "normally_add_history_box">
-                        분류<br><select id = "history_category_inputBox" name = "history_category" /> 
-                            {% for cate in category_list %}
-                            <option>{{ cate.name }}</option>
-                            {% endfor %}
-                        </select><br><br>
-                        내용<br><input id = "history_name_inputBox" name = "history_name"/><br><br>
-                        가격(숫자로 입력)<br><input id = "history_price_inputBox" name = "history_price"  type = 'number'/><br><br> 
+                        {{ add_history_form.as_p }}
                         {% csrf_token %}
                         <div class = "btn-group">
                             <a href = "{% url 'main' %}" id = "go_to_main" role = "button" class = "btn btn-info" >돌아가기</a>

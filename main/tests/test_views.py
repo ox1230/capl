@@ -54,7 +54,7 @@ class AddhistoryTest(TestCase):
         self.assertTemplateUsed(response, 'add_history.html')
 
         self.assertContains(response,'첫번째')
-        self.assertContains(response,'거래내역분류' )
+        self.assertContains(response,'거래내역분류')
 
 
         
@@ -66,9 +66,9 @@ class AddhistoryTest(TestCase):
 
         response = self.client.post(
             '/add_history/',
-            data = {'history_category': cate_.name,
-                    'history_name' : '거래내역내용',
-                    'history_price' : 1000,
+            data = {'history_category': [cate_.id],
+                    'history_name' : ['거래내역내용'],
+                    'history_price' : [1000],
         })
 
         saved_history = History.objects.first()
