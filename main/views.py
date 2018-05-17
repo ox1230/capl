@@ -18,17 +18,14 @@ def home_page(request:HttpRequest):
     })
 
 def add_history(request:HttpRequest):
-
+    form = HistoryForm()
     if request.method == 'POST':
-    #아직은 카테고리가 없으면 추가
-        cate_id = request.POST['history_category']
-        if  Category.objects.filter(id =cate_id).count() == 0:
-            Category.objects.create(id = cate_id)
-        
-        Processing.add_history(cate_id,request.POST['history_name'], int(request.POST['history_price']))
-        return redirect('main')
-    
-    else:
-        return render(request, 'add_history.html',{
-            'add_history_form' : HistoryForm(),
-        })
+        form = HistoryForm(data = request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main')
+
+
+    return render(request, 'add_history.html',{
+        'add_history_form' : form,
+    })

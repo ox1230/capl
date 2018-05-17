@@ -66,9 +66,9 @@ class AddhistoryTest(TestCase):
 
         response = self.client.post(
             '/add_history/',
-            data = {'history_category': [cate_.id],
-                    'history_name' : ['거래내역내용'],
-                    'history_price' : [1000],
+            data = {'category': cate_.id,
+                    'name' : '거래내역내용',
+                    'price' : '1000',
         })
 
         saved_history = History.objects.first()

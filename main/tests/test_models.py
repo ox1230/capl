@@ -14,19 +14,6 @@ def remove_csrf_tag(text):
 
 class HistoryModelTest(TestCase):
     
-    def test_processing_add_history(self):
-        ori_cate = Category.objects.create(name = '첫번째분류')
-        
-        cate = Category.objects.first()
-
-        self.assertEqual("첫번째분류", cate.name)
-        self.assertEqual(100000, cate.residual)
-
-        Processing.add_history(ori_cate.id,"거래내역",1000)
-        cate = Category.objects.first()
-        self.assertEqual("첫번째분류", cate.name)
-        self.assertEqual(99000, cate.residual)
-
     def test_get_absolute_url_from_history(self):
         cate =  Category.objects.create(name = '첫번째분류')
         hist = History.objects.create(category = cate)

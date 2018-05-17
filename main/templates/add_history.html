@@ -10,6 +10,11 @@
                     <fieldset id = "normally_add_history_box">
                         {{ add_history_form.as_p }}
                         {% csrf_token %}
+                        {% if add_history_form.error %}
+                            <div class = "form-group has-error">
+                                <span class = "help-block">{{ form.text.errors }}</span>
+                            </div>
+                        {% endif %}
                         <div class = "btn-group">
                             <a href = "{% url 'main' %}" id = "go_to_main" role = "button" class = "btn btn-info" >돌아가기</a>
                             <button id = "add_history_button" class = "btn btn-info">제출</button>

@@ -27,21 +27,27 @@ class HistoryFormTest(TestCase):
         self.assertIn('class="form-control input-lg"',form.as_p())
         self.assertIn('select',form.as_p())
     
-    @skip
-    def test_form_validation_for_blank_items(self):
-        form = ItemForm(data = {'text':''})
+    def test_form_validation_for_blank(self):
+        cate = Category.objects.create()
+        form = HistoryForm(data = {'name':'', 'category':cate.id, 'price':1000})
+        self.assertTrue(form.is_valid())
+
+        form = HistoryForm(data = {'name':'', 'category':None, 'price':1000})
         self.assertFalse(form.is_valid())
-        self.assertEqual(
-            form.errors['text'], [EMPTY_LIST_ERROR] )
-    
-    @skip
+
+        form = HistoryForm(data = {'name':'', 'category':cate.id, 'price':None})
+        self.assertFalse(form.is_valid())
+
+ 
     def test_form_save_handles_saving_to_a_list(self):
-        list_ = List.objects.create()
-        form = ItemForm(data = {'text':'do me'})
-        new_item = form.save(for_list = list_)
-        self.assertEqual(new_item, Item.objects.first())
-        self.assertEqual(new_item.text, 'do me')
-        self.assertEqual(new_item.list, list_)
+        cate = Category.objects.create()
+        
+        form = HistoryForm(data = {'name':'hihi', 'category':cate.id, 'price':1000})
+        new_history = form.save()
+        self.assertEqual(new_history, History.objects.first())
+        self.assertEqual(new_history.name, 'hihi')
+        self.assertEqual(new_history.category , cate)
+        self.assertEqual(new_history.price ,1000)
         
         
 

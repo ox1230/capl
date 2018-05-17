@@ -4,15 +4,6 @@ from main.models import Category, History
 
 class Processing():
     """ 계산 작업이 들어간 작업을 처리한다"""
-    @classmethod
-    def add_history(cls, cate_id:str, name:str, price:int):
-
-        cate = Category.objects.get(id = cate_id)
-
-        History.objects.create(category = cate, name = name, price = price)
-
-        cate.residual -= price
-        cate.save()
 
     @classmethod
     def get_total_assigned(cls):
