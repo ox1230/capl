@@ -44,8 +44,18 @@ class Processing():
         return Processing.get_total_assigned() - Processing.get_total_sum(today)        
         
     @classmethod
-    def get_category_residual(cls,cate : Category):
-        hists_of_cate = History.objects.filter(category = cate)
+    def get_category_residual(cls, cate:Category, today = date.today()):
+        weekday = today.weekday()
+        # 일요일: 0, 토요일: 6
+        if weekday == 6:
+            weekday = 0
+        else:
+            weekday += 1
+
+        week_start_date = today + timedelta(days = -weekday)
+        week_end_date = week_start_date + timedelta(days = 6)
+
+        hists_of_cate = History.objects.filter(category = cate, written_date__range = (week_start_date , week_end_date) )
 
         total = sum([hist.price for hist in hists_of_cate])
 

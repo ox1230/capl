@@ -34,11 +34,12 @@ class ProcessingTest(TestCase):
         self.assertEqual(Processing.get_total_assigned(), 10000)
         self.assertEqual(Processing.get_total_residual(date.today()), 8000)
     
-    def test_can_process_each_categories_residual(self):
-        cate1 = Category.objects.create(name ="1", assigned = 10000)
-        cate2 = Category.objects.create(name ="2", assigned = 10000)
+    def test_can_process_each_categories_residual_well(self):
+        cate1 = Category.objects.create(name ="c1", assigned = 10000)
+        cate2 = Category.objects.create(name ="c2", assigned = 10000)
         
-        History.objects.create(category = cate1, name="1", price = 6000)
+        History.objects.create(category = cate1, name="h1", price = 6000)
+        History.objects.create(category = cate1, name="h2", price = 2000, written_date = date.today()- timedelta(days=10) )
         
         self.assertEqual(Processing.get_category_residual(cate1), 4000)
         self.assertEqual(Processing.get_category_residual(cate2), 10000)

@@ -20,8 +20,8 @@ class VisitorTest(FuntionalTest):
         #메인 화면에는 현재 사용금액 정보가 있다. 현재 사용 금액은 0원이다.   -- 사용가능 금액은 300000이다.
        
         rows_text = self.find_rows_from_table_id("present_box")
-        self.assertIn('현재 사용금액 0원', rows_text)
-        self.assertIn('남은 금액 300000원', rows_text)
+        self.assertIn('사용한 돈 0원', rows_text)
+        self.assertIn('남은 돈 300000원', rows_text)
 
         # (각 category별 사용가능금액이 표시된다.
         rows_text =  self.find_rows_from_table_id('detail_box')
