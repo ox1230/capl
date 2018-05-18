@@ -1,6 +1,7 @@
 main: 처음 화면 +  거래내역 저장 화면을 지칭
         total_assigned: 이번주에 사용할 수 있도록 할당된 금액
         total_residual : 이번주에 남은 금액
+        residual_for_day:  하루에 사용해야하는 금액
 
 category -- assigned: 즉, 각 주별로 분류마다 할당된 금액
 

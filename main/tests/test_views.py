@@ -21,8 +21,8 @@ class MainViewTest(TestCase):
         Category.objects.create(name = 'test')
        
         response = self.client.get('', data =  {
-            'total_sum': Processing.get_total_sum() , 
-            'residual': Processing.get_total_residual(),
+            'total_sum': Processing.get_informations_for_main()['total_sum'] , 
+            'residual': Processing.get_informations_for_main()['total_residual'],
             'categories' : Category.objects.all(),
         })  
 
@@ -44,8 +44,8 @@ class MainViewTest(TestCase):
         expected_html = render_to_string('home.html', request = request, context = 
         {
             'today_date': date.today().strftime(NORMAL_DATE_FORMAT),   #현재시간이 나오는지까지 확인
-            'total_sum': Processing.get_total_sum() ,
-            'residual': Processing.get_total_residual(),
+            'total_sum': Processing.get_informations_for_main()['total_sum'] ,
+            'residual': Processing.get_informations_for_main()['total_residual'],
             'resid_of_cates': resid_of_cates,
         })
         

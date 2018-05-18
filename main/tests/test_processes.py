@@ -21,7 +21,7 @@ class ProcessingTest(TestCase):
         Category.objects.create(name ="2", assigned = 1500)
         Category.objects.create(name ="3", assigned = 1000)
 
-        self.assertEqual(Processing.get_total_assigned(), 3500)
+        self.assertEqual(Processing.get_informations_for_main()['total_assigned'], 3500)
     
     def test_can_process_total_residual_well(self):
         cate = Category.objects.create(name ="1", assigned = 5000)
@@ -31,8 +31,9 @@ class ProcessingTest(TestCase):
         History.objects.create(category = cate, name="1", price = 2000, written_date = date.today())
         History.objects.create(category = cate, name="2", price = 2000, written_date = date.today()- timedelta(days=10))
 
-        self.assertEqual(Processing.get_total_assigned(), 10000)
-        self.assertEqual(Processing.get_total_residual(date.today()), 8000)
+        infos_main = Processing.get_informations_for_main()
+        self.assertEqual(infos_main['total_assigned'], 10000)
+        self.assertEqual(infos_main['total_residual'], 8000)
     
     def test_can_process_each_categories_residual_well(self):
         cate1 = Category.objects.create(name ="c1", assigned = 10000)

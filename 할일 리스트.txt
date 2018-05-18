@@ -1,22 +1,22 @@
 ﻿main화면 전체 금액만 구성   -- clear
 add_history으로 이동하게 만들기  -- clear
-
 history, category 테이블 구성  & refactoring -- clear
 category는 있는 것만 선택 가능하도록 구성   -- clear
-
-
 각 category별 사용가능금액 표시  -- clear
-
-
 test파일 분리하기 -- clear
 url하드 코딩 없애기  -- clear
 url간단하게 개편하기 -- clear
-1.폼으로 개편하기 -Processing의 total class를 구성해서 toal method의 유효성 검사가 가능하도록 refactoring
-2. 날짜 불러와서 현재 날짜 표시하고 일주일마다 리셋 
-   사용가능금액 등을 계산하는 걸로 바꾸기
-3. css/bootstrap적용  => 1차 완성 & 배포
-- base.html만들기  -- clear
-- bootstrap 간단히 적용 -- clear
-- base에 navigation bar 추가
 
-모든 데이터는 DB에 저장!
+1.폼으로 개편하기 -Processing의 total class를 구성해서 toal method의 유효성 검사가 가능하도록 refactoring -- clear
+
+2. 날짜 불러와서 현재 날짜 표시하고 일주일마다 리셋   
+   -각 날짜별 사용가능금액 추가   
+   -사용가능금액 등을 계산하는 걸로 바꾸기  -- clear
+        - but 최적화하기
+
+3. css/bootstrap적용  => 1차 완성 & 배포
+    - base.html만들기  -- clear
+    - bootstrap 간단히 적용 -- clear
+    - base에 navigation bar 추가
+
+-할당이 없는 카테고리를 메인에의 표시 방식 (total에는 포함?)  -- 할당이 없는 것만 따로 구분해야 할듯

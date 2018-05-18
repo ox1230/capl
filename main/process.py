@@ -6,45 +6,64 @@ from datetime import date, timedelta
 
 class Processing():
     """ 계산 작업이 들어간 작업을 처리한다"""
-
     @classmethod
-    def get_total_assigned(cls):
+    def get_informations_for_main(cls, today = date.today(), category_assigned= True):
+        ret = {}
         categories = Category.objects.exclude(assigned = None)
         
-        ret = sum([cate.assigned for cate in categories])
+        # total_assigned 계산과 cate_assigned 포함시키기
+        total_assigned = 0
+        for cate in categories:
+            total_assigned += cate.assigned
+            if category_assigned:
+                ret["{}_assigned".format(cate.name)] = cate.assigned
+        
+        
+        ret["total_assigned"] = total_assigned
 
-        if ret == None:
-            ret = 0
-
+        # total_sum 계산과 category_residual포함
+        total_sum = 0
+        for cate in categories:
+            cate_residual = Processing.get_category_residual(cate,today)
+            ret[cate] = cate_residual
+            total_sum += cate.assigned - cate_residual
+        
+        ret["total_sum"] = total_sum
+        ret["total_residual"] = total_assigned - total_sum 
         return ret
+
+    # @classmethod
+    # def get_total_assigned(cls):
+    #     categories = Category.objects.exclude(assigned = None)
+        
+    #     ret = sum([cate.assigned for cate in categories])
+
+    #     if ret == None:
+    #         ret = 0
+
+    #     return ret
     
 
-    @classmethod
-    def get_total_sum(cls, today= date.today()):
-        weekday = today.weekday()
-        # 일요일: 0, 토요일: 6
-        if weekday == 6:
-            weekday = 0
-        else:
-            weekday += 1
-        week_start_date = today + timedelta(days = -weekday)
-        week_end_date = week_start_date + timedelta(days = 6)
+    # @classmethod
+    # def get_total_sum(cls, today= date.today()):
 
-        assigned = Processing.get_total_assigned()
-        histories = History.objects.filter(written_date__range=(week_start_date, week_end_date))
+    #     assigned = Processing.get_total_assigned()
+    #     list_of_cate = Category.objects.exclude(assigned = None)
+        
+    #     ret = 0
+    #     for cate in list_of_cate:
+    #         ret += Processing.get_category_sum(cate, today)
 
-        ret = sum([ hist.price for hist in histories])
-
-        if ret == None:
-            ret = 0
-        return ret
+    #     if ret == None:
+    #         ret = 0
+    #     return ret
+        
+    # @classmethod
+    # def get_total_residual(cls, today=date.today() ):
+    #     return Processing.get_total_assigned() - Processing.get_total_sum(today)        
         
     @classmethod
-    def get_total_residual(cls, today=date.today() ):
-        return Processing.get_total_assigned() - Processing.get_total_sum(today)        
-        
-    @classmethod
-    def get_category_residual(cls, cate:Category, today = date.today()):
+    def get_category_sum(cls, cate:Category, today = date.today()):
         weekday = today.weekday()
         # 일요일: 0, 토요일: 6
         if weekday == 6:
@@ -57,8 +76,14 @@ class Processing():
 
         hists_of_cate = History.objects.filter(category = cate, written_date__range = (week_start_date , week_end_date) )
 
-        total = sum([hist.price for hist in hists_of_cate])
+        ret = sum([hist.price for hist in hists_of_cate])
+        if ret == None:
+            ret = 0
+        return ret
 
-        return cate.assigned - total
+    @classmethod
+    def get_category_residual(cls, cate:Category , today = date.today()):
+
+        return cate.assigned - Processing.get_category_sum(cate, today)
 
         
