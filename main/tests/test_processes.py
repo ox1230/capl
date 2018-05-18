@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
-from main.process import Processing
+from main.process import db_reset, Processing
 
 from datetime import date, timedelta
 import re
@@ -15,7 +15,20 @@ def remove_csrf_tag(text):
     return re.sub(r'<[^>]*csrfmiddlewaretoken[^>]*>', '', text)
 
 class ProcessingTest(TestCase):
-    
+    def test_DB_reset(self):
+        cate =Category.objects.create(name ="1", assigned = 1000)
+        hist = History.objects.create(category = cate, name="1", price = 2000, written_date = date.today())
+        
+        db_reset()
+
+        all_cates =  Category.objects.all()
+        all_histes =  History.objects.all()
+        self.assertNotIn(cate, all_cates)
+        self.assertNotIn(hist, all_histes)
+
+        self.assertEqual(all_cates.count(), 3)
+        self.assertEqual(all_histes.count(), 1)
+
     def test_can_process_total_assigned(self):
         Category.objects.create(name ="1", assigned = 1000)
         Category.objects.create(name ="2", assigned = 1500)

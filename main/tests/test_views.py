@@ -21,9 +21,8 @@ class MainViewTest(TestCase):
         Category.objects.create(name = 'test')
        
         response = self.client.get('', data =  {
-            'total_sum': Processing.get_informations_for_main()['total_sum'] , 
-            'residual': Processing.get_informations_for_main()['total_residual'],
-            'categories' : Category.objects.all(),
+            'total_sum':1000 , 
+            'residual': 2000,
         })  
 
         self.assertRedirects(response, '/main/')
@@ -50,6 +49,18 @@ class MainViewTest(TestCase):
         })
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
+    
+    def test_db_reset(self):
+        cate = Category.objects.create(name = 'test')
+
+        response = self.client.get('/reset/')  
+
+        cates = Category.objects.all()
+
+        self.assertNotIn(cate, cates)
+        self.assertEqual(cates.count(), 3)
+
+        self.assertRedirects(response, '/main/')
 
 
 class AddhistoryTest(TestCase):

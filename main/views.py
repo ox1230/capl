@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpRequest
-from .process import Processing
+from .process import db_reset, Processing
 from main.models import History, Category
 from main.forms import HistoryForm
 
@@ -10,6 +10,11 @@ from datetime import date
 NORMAL_DATE_FORMAT = "%Y-%m-%d %A"
 
 def root(request:HttpRequest):
+    return redirect('main')
+
+def reset(request : HttpRequest):
+    db_reset()
+
     return redirect('main')
 
 def home_page(request:HttpRequest):

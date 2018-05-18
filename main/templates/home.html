@@ -18,8 +18,12 @@
     
     <div class ="row">
         <div class ="col-xs-12 col-md-6 col-md-offset-3">
-        <a id = "add_history_menu"  href = "{% url 'add_history' %}" role ="button" class ="btn col-xs-offset-10">기록하기</a>
+        <a id = "reset_menu"  href = "{% url 'reset' %}" 
+            role ="button" class ="btn btn-danger">리셋하기</a>
+        <a id = "add_history_menu"  href = "{% url 'add_history' %}" 
+            role ="button" class ="btn btn-info">기록하기</a>
         </div>
+    </div>
 
     <div class = "row">
         <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">

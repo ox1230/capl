@@ -1,8 +1,24 @@
 
+from django.db.models.query import QuerySet
 from main.models import Category, History
 from django.utils import timezone
 from datetime import date, timedelta
 
+
+def db_reset():
+    
+    if History.objects.count() >0 : History.objects.all().delete()
+    if Category.objects.count() >0 : Category.objects.all().delete()
+
+    #미리 설정되어 있는 데이터
+    Category.objects.create(name = '군것질', assigned = 100000)
+    Category.objects.create(name = '세끼', assigned = 100000)
+    cate_gita = Category.objects.create(name = '기타', assigned = 100000)
+
+
+    #저번주의 데이터가 이미 들어가 있다.
+    History.objects.create(category= cate_gita, price = 2700, name = "학식" ,written_date = date.today() + timedelta(days = -7)  )
+    
 
 class Processing():
     """ 계산 작업이 들어간 작업을 처리한다"""

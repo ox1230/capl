@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category,History
+from main.process import db_reset
 import unittest
 import time
 from datetime import date, timedelta
@@ -12,15 +13,8 @@ class FuntionalTest(LiveServerTestCase):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(1)   # 암묵적 대기 -- 1초
         
-        #미리 설정되어 있는 데이터
-        Category.objects.create(name = '군것질', assigned = 100000)
-        Category.objects.create(name = '세끼', assigned = 100000)
-        cate_gita = Category.objects.create(name = '기타', assigned = 100000)
-
-
-        #저번주의 데이터가 이미 들어가 있다.
-        History.objects.create(category= cate_gita, price = 2700, name = "학식" ,written_date = date.today() + timedelta(days = -10)  )
-        
+        db_reset()
+    
     
     def tearDown(self):
         """테스트 후에 시행-- 테스트에 에러가 발생해도 실행된다"""
