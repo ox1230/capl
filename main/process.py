@@ -4,7 +4,6 @@ from main.models import Category, History
 from django.utils import timezone
 from datetime import date, timedelta
 
-
 def db_reset():
     
     if History.objects.count() >0 : History.objects.all().delete()
@@ -18,34 +17,99 @@ def db_reset():
 
     #저번주의 데이터가 이미 들어가 있다.
     History.objects.create(category= cate_gita, price = 2700, name = "학식" ,written_date = date.today() + timedelta(days = -7)  )
-    
 
-class Processing():
-    """ 계산 작업이 들어간 작업을 처리한다"""
+class CategoryInfo:
+    """특히 main과 관련된 각 category의 각종 정보를 저장한다.
+    @값들: category, name, assigned, resid, for_day"""
+    def __init__(self, cate, resid = None, for_day= None , today = date.today()):
+        self.category = cate
+        self.name = cate.name
+        self.assigned = cate.assigned
+        self.resid = resid
+        self.for_day = for_day
+        
+        if self.resid == None:
+            self.resid = CategoryInfo.get_category_residual(cate, today)
+        
+        if self.for_day == None:
+            weekday = today.weekday()
+            # 일요일: 0, 토요일: 6
+            if weekday == 6:
+                weekday = 0
+            else:
+                weekday += 1
+
+            self.for_day = self.resid // (7-weekday)
+        
+    def __str__(self):
+        return "category:{}, resid:{}, for_day:{}".format(self.category.name,self.resid,self.for_day)
+
     @classmethod
-    def get_informations_for_main(cls, today = date.today(), category_assigned= True):
+    def get_category_sum(cls, cate:Category, today = date.today()):
+        weekday = WeekAndDay.my_week_day()
+        week_start_date = today + timedelta(days = -weekday)
+        week_end_date = week_start_date + timedelta(days = 6)
+
+        hists_of_cate = History.objects.filter(category = cate, written_date__range = (week_start_date , week_end_date) )
+
+        ret = sum([hist.price for hist in hists_of_cate])
+        if ret == None:
+            ret = 0
+        
+        return ret
+
+    @classmethod
+    def get_category_residual(cls, cate:Category , today = date.today()):
+    
+        return cate.assigned - CategoryInfo.get_category_sum(cate, today)
+
+###### End Of CategoryInfo #####################
+
+class WeekAndDay:
+    """각종 날짜 관련 작업들"""
+    @classmethod
+    def my_week_day(cls, today = date.today()):
+        """요일 리턴
+        @ sun:0 ~ sat: 6"""
+        
+        weekday = today.weekday()
+      
+        if weekday == 6:
+            weekday = 0
+        else:
+            weekday += 1
+        
+        return weekday
+
+
+
+
+###### End of WeekAndDay #####################################
+class Processing():
+    """중복된 작업에 대한 최적화 작업"""
+    @classmethod
+    def get_informations_for_main(cls, today = date.today()):
+        """main,  view의 home_page를 위한 정보를 얻는 최적화된 함수
+        @return: total_assigned, total_sum , list_of_category_info"""
         ret = {}
+        ret['list_of_category_info'] = []
         categories = Category.objects.exclude(assigned = None)
         
-        # total_assigned 계산과 cate_assigned 포함시키기
+        # total_assigned 계산 포함시키기
+        # total_sum 계산 category_residual포함
         total_assigned = 0
-        for cate in categories:
-            total_assigned += cate.assigned
-            if category_assigned:
-                ret["{}_assigned".format(cate.name)] = cate.assigned
-        
-        
-        ret["total_assigned"] = total_assigned
-
-        # total_sum 계산과 category_residual포함
         total_sum = 0
         for cate in categories:
-            cate_residual = Processing.get_category_residual(cate,today)
-            ret[cate] = cate_residual
-            total_sum += cate.assigned - cate_residual
+            cate_info = CategoryInfo(cate)
+            ret['list_of_category_info'].append(cate_info)
+            
+            total_assigned += cate.assigned
+            total_sum += cate.assigned - cate_info.resid
         
+        ret["total_assigned"] = total_assigned
         ret["total_sum"] = total_sum
         ret["total_residual"] = total_assigned - total_sum 
+        
         return ret
 
     # @classmethod
@@ -68,7 +132,7 @@ class Processing():
         
     #     ret = 0
     #     for cate in list_of_cate:
-    #         ret += Processing.get_category_sum(cate, today)
+    #         ret += CategoryInfo.get_category_sum(cate, today)
 
     #     if ret == None:
     #         ret = 0
@@ -78,28 +142,6 @@ class Processing():
     # def get_total_residual(cls, today=date.today() ):
     #     return Processing.get_total_assigned() - Processing.get_total_sum(today)        
         
-    @classmethod
-    def get_category_sum(cls, cate:Category, today = date.today()):
-        weekday = today.weekday()
-        # 일요일: 0, 토요일: 6
-        if weekday == 6:
-            weekday = 0
-        else:
-            weekday += 1
 
-        week_start_date = today + timedelta(days = -weekday)
-        week_end_date = week_start_date + timedelta(days = 6)
-
-        hists_of_cate = History.objects.filter(category = cate, written_date__range = (week_start_date , week_end_date) )
-
-        ret = sum([hist.price for hist in hists_of_cate])
-        if ret == None:
-            ret = 0
-        return ret
-
-    @classmethod
-    def get_category_residual(cls, cate:Category , today = date.today()):
-
-        return cate.assigned - Processing.get_category_sum(cate, today)
 
         

@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
-from main.process import db_reset, Processing
+from main.process import db_reset, Processing, CategoryInfo
 
 from datetime import date, timedelta
 import re
@@ -55,5 +55,5 @@ class ProcessingTest(TestCase):
         History.objects.create(category = cate1, name="h1", price = 6000)
         History.objects.create(category = cate1, name="h2", price = 2000, written_date = date.today()- timedelta(days=10) )
         
-        self.assertEqual(Processing.get_category_residual(cate1), 4000)
-        self.assertEqual(Processing.get_category_residual(cate2), 10000)
+        self.assertEqual(CategoryInfo.get_category_residual(cate1), 4000)
+        self.assertEqual(CategoryInfo.get_category_residual(cate2), 10000)

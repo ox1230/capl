@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page, NORMAL_DATE_FORMAT
 from main.models import Category, History
-from main.process import Processing
+from main.process import Processing, CategoryInfo
 
 from datetime import date
 import re
@@ -29,23 +29,19 @@ class MainViewTest(TestCase):
 
 
     def test_home_page_returns_correct_html_first(self):        
-        Category.objects.create(name = 'test')
+        cate = Category.objects.create(name = 'test', assigned = 100000)
 
         
         request = HttpRequest()      # 사용자가 보낸 요청 확인
         response = home_page(request)   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
         
-        cates = Category.objects.exclude(assigned = None)
-        resid_of_cates = {}
-        for cate in cates:
-            resid_of_cates[cate] = Processing.get_category_residual(cate)
 
         expected_html = render_to_string('home.html', request = request, context = 
         {
             'today_date': date.today().strftime(NORMAL_DATE_FORMAT),   #현재시간이 나오는지까지 확인
-            'total_sum': Processing.get_informations_for_main()['total_sum'] ,
-            'residual': Processing.get_informations_for_main()['total_residual'],
-            'resid_of_cates': resid_of_cates,
+            'total_sum': 0 ,
+            'residual': 100000,
+            'list_of_category_info': [CategoryInfo(cate)],
         })
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))

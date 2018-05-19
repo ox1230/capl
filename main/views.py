@@ -19,18 +19,15 @@ def reset(request : HttpRequest):
 
 def home_page(request:HttpRequest):
     
-    #날짜 만들기
     today =date.today()
-
-    infos_of_main = Processing.get_informations_for_main( category_assigned = False)
-    infos_of_main.pop('total_assigned')
+    infos_of_main = Processing.get_informations_for_main()
 
     return render(request, 'home.html',
     {
         'today_date': today.strftime(NORMAL_DATE_FORMAT),
-        'total_sum': infos_of_main.pop('total_sum'),
-        'residual': infos_of_main.pop('total_residual'),
-        'resid_of_cates': infos_of_main,   #이제 category_resid만 남았다.
+        'total_sum': infos_of_main['total_sum'],
+        'residual': infos_of_main['total_residual'],
+        'list_of_category_info': infos_of_main['list_of_category_info'],
     })
 
 def add_history(request:HttpRequest):

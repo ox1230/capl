@@ -28,9 +28,10 @@
     <div class = "row">
         <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">
             <table id = "detail_box" class = "col-xs-12 table-bordered">
-                <tr><td>분류</td><td>남은 금액</td></tr>
-            {% for cate , resid in resid_of_cates.items %}
-                <tr id = {{cate.name}}>><td>{{cate.name}}</td><td>{{ resid }}원</td></tr>
+                <tr><td>분류</td><td>남은 돈</td><td>오늘 쓸돈</td></tr>
+            {% for cate_info in list_of_category_info %}
+                <tr id = {{ cate_info.name }}><td>{{cate_info.name }}</td><td>{{ cate_info.resid }}원</td>
+                    <td>{{ cate_info.for_day }}원</td></tr>
             {% endfor %}
             </table>
         </div>

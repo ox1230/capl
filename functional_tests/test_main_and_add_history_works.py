@@ -47,9 +47,9 @@ class AlreadyVisitorTest(FuntionalTest):
         self.assertIn('남은 돈 294000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 98500원', rows_text)
-        self.assertIn('세끼 95500원', rows_text)
-        self.assertIn('기타 100000원', rows_text)
+        self.assertIn('군것질 98500원 {}원'.format(98500// (7-self.weekday)), rows_text)
+        self.assertIn('세끼 95500원 {}원'.format(95500// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
     def test_can_go_to_main_by_button(self):
         #에디스는 사이트를 방문해 거래내역추가로 이동한다
@@ -73,6 +73,6 @@ class AlreadyVisitorTest(FuntionalTest):
         self.assertIn('남은 돈 300000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 100000원', rows_text)
-        self.assertIn('세끼 100000원', rows_text)
-        self.assertIn('기타 100000원', rows_text)
+        self.assertIn('군것질 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)

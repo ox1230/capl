@@ -23,12 +23,12 @@ class VisitorTest(FuntionalTest):
         self.assertIn('사용한 돈 0원', rows_text)
         self.assertIn('남은 돈 300000원', rows_text)
 
-        # (각 category별 사용가능금액이 표시된다.
+        # (각 category별 남은돈, 하루 할당액이 표시된다.
         rows_text =  self.find_rows_from_table_id('detail_box')
 
-        self.assertIn('군것질 100000원', rows_text)
-        self.assertIn('세끼 100000원', rows_text)
-        self.assertIn('기타 100000원', rows_text)
+        self.assertIn('군것질 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
     def test_layout_and_styling(self):
         """layout전체가 아니라 css가 제대로 붙어졌는지 정도를 체크함"""

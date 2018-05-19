@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category,History
-from main.process import db_reset
+from main.process import db_reset ,WeekAndDay
 import unittest
 import time
 from datetime import date, timedelta
@@ -14,6 +14,8 @@ class FuntionalTest(LiveServerTestCase):
         self.browser.implicitly_wait(1)   # 암묵적 대기 -- 1초
         
         db_reset()
+
+        self.weekday = WeekAndDay.my_week_day()  #오늘의 요일
     
     
     def tearDown(self):
