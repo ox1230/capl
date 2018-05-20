@@ -7,9 +7,42 @@
         <Title>Cash Planner</Title>
     
         <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type= "text/javascript" src = "/static/js/bootstrap.min.js"> </script>
     
     </head>
     <body>
+        <nav class="navbar navbar-inverse">
+            <div class= "container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'main' %}">Cash Planner</a>
+                    <button type = "button" class= "navbar-toggle btn-info" 
+                    data-toggle = "collapse" data-target ="#top-menu-collapse" >
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                    </button>
+                </div>
+                <div id= "top-menu-collapse" class= "collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class = "nav-item"><a class= "nav-link" href = "{% url 'add_history'%}">기록하기</a></li>
+                        <li class = "nav-item"><a class = "nav-link" data-toggle="popover" data-placement = "bottom"
+                            title="개발중" data-content="아직 만들지 않았습니다 ㅠㅠ">얼마나 썼지?</a></li>
+                        <li class = "nav-item"><a class = "nav-link" data-toggle="popover" data-placement = "bottom"
+                            title="개발중" data-content="아직 만들지 않았습니다 ㅠㅠ">설정 변경</a></li>
+                    </ul>
+                    <script>
+                            $(document).ready(function(){
+                                $('[data-toggle="popover"]').popover(
+                                    {container: 'body'}
+                                ); 
+                            });
+                    </script>
+                </div>  
+            </div>
+        </nav>
+        
+        {% comment %} <div style="margin-top:40px"></div> {% endcomment %}
         {%block body_block%}
  
         {%endblock body_block%}
