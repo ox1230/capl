@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %}
+주머니 상황
+{% endblock title %}
+
+
 {% block body_block %}
 <div class = "container">
-    <div class ="page header text-center"><h2>현재 상황</h2></div>
     <div class = "row">
         <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
             <h3>{{today_date}}</h3>
@@ -16,19 +20,10 @@
         </div>
     </div>
     
-    <div class ="row">
-        <div class ="col-xs-12 col-md-6 col-md-offset-3">
-        <a id = "reset_menu"  href = "{% url 'reset' %}" 
-            role ="button" class ="btn btn-danger">리셋하기</a>
-        <a id = "add_history_menu"  href = "{% url 'add_history' %}" 
-            role ="button" class ="btn btn-info">기록하기</a>
-        </div>
-    </div>
-
     <div class = "row">
         <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">
             <table id = "detail_box" class = "col-xs-12 table-bordered">
-                <tr><td>분류</td><td>남은 돈</td><td>오늘 쓸돈</td></tr>
+                <tr><td>분류</td><td>남은 돈</td><td>오늘 쓸 돈</td></tr>
             {% for cate_info in list_of_category_info %}
                 <tr id = {{ cate_info.name }}><td>{{cate_info.name }}</td><td>{{ cate_info.resid }}원</td>
                     <td>{{ cate_info.for_day }}원</td></tr>

@@ -1,11 +1,11 @@
 from django import forms
-from main.models import History, Category
+from .models import History, Category
 
 class HistoryForm(forms.models.ModelForm):
     class Meta:
         model = History
         fields = ('category', 'name', 'price',)
-
+        labels = {'category': '분류', 'name':"내용", "price": '금액'}
         widgets = {
             'category': forms.fields.Select(
                 attrs = {
@@ -23,7 +23,6 @@ class HistoryForm(forms.models.ModelForm):
                 attrs = {
                     'id' : 'history_price_inputBox',
                     'class': "form-control input",
-
                 }
             ),
         }

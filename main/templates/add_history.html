@@ -1,14 +1,17 @@
 {% extends "base.html" %}
-{%block body_block%}
 
+{% block title %}
+기록하기
+{% endblock title %}
+
+{%block body_block%}
 <div class = "container"> 
     <div class= "row">
-        <div class ="page header text-center"><h2>기록하기</h2></div>
         <div class = "col-md-6 col-md-offset-3 jumbotron">
             <div class = "text-center">
-                <form method = "POST" action = '{% url "add_history" %}'>
+                <form method = "POST" class = "form" action = '{% url "add_history" %}'>
                     <fieldset id = "normally_add_history_box">
-                        {{ add_history_form.as_p }}
+                        {{ add_history_form }}
                         {% csrf_token %}
                         {% if add_history_form.error %}
                             <div class = "form-group has-error">
@@ -17,7 +20,7 @@
                         {% endif %}
                         <div class = "btn-group">
                             <a href = "{% url 'main' %}" id = "go_to_main" role = "button" class = "btn btn-info" >돌아가기</a>
-                            <button id = "add_history_button" class = "btn btn-info">제출</button>
+                            <button id = "add_history_button" type = "submit" class = "btn btn-info">제출</button>
                         </div>
                     </fieldset>
                 </form>
