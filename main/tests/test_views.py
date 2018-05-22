@@ -2,11 +2,12 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from main.views import home_page, NORMAL_DATE_FORMAT
+from main.views import home_page,show_history, NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from main.models import Category, History
 from main.process import Processing, CategoryInfo
+from datetime import date, timedelta
 
-from datetime import date
+from unittest import skip
 import re
 
 # Create your tests here.
@@ -95,4 +96,27 @@ class AddhistoryTest(TestCase):
         self.assertRedirects(response, '/main/')
 
 
+class ShowHistoryTest(TestCase):
+    
+    def test_show_history_returns_correct_html(self):        
+        cate = Category.objects.create(name = 'test', assigned = 100000)
+
+        this_week_history = History.objects.create(category= cate, price = 2700, name = "first_item" ,written_date = date.today() )
+        ago_history = History.objects.create(category= cate, price = 2000, name = "second_item" ,written_date = date.today() + timedelta(days = -7)  )
         
+             # 사용자가 보낸 요청 확인
+        request = HttpRequest()
+        response = show_history("/show_history/")   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
+        
+
+        expected_html = render_to_string('show_history.html', request = request, context = 
+        {
+            'this_week_history' : {this_week_history: this_week_history.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)},
+            'long_ago_history' : {ago_history: ago_history.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)},
+        })
+        
+        self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
+
+        self.assertContains(response, "first_item")
+        self.assertContains(response, "second_item")
+

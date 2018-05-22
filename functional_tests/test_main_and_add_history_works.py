@@ -4,7 +4,7 @@ from django.test import LiveServerTestCase
 from main.models import Category
 from .base import FuntionalTest
 
-from main.views import NORMAL_DATE_FORMAT
+from main.views import NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from datetime import date , timedelta
 import unittest
 import time
@@ -12,7 +12,7 @@ import time
 
 class AlreadyVisitorTest(FuntionalTest):
         
-    def test_add_history_adn_can_write_history_of_past(self):
+    def test_add_history_and_can_write_history_of_past(self):
         """ 과거 내역도 저장하기"""
 
         #edith가 해당 웹사이트 방문
@@ -41,7 +41,8 @@ class AlreadyVisitorTest(FuntionalTest):
         add_history_menu.click()
 
         self.browser.find_element_by_id("history_written_date_inputBox").clear()
-        self.browser.find_element_by_id("history_written_date_inputBox").send_keys((date.today() + timedelta(days= -7)).strftime('%Y-%m-%d'))
+        self.browser.find_element_by_id("history_written_date_inputBox").send_keys(
+            (date.today() + timedelta(days= -7)).strftime('%Y-%m-%d'))
         self.browser.find_element_by_id("history_category_inputBox").send_keys('세끼')
         self.browser.find_element_by_id("history_name_inputBox").send_keys('맘스터치')
         self.browser.find_element_by_id("history_price_inputBox").send_keys('5600')

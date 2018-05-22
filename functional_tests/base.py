@@ -16,14 +16,14 @@ class FuntionalTest(LiveServerTestCase):
         db_reset()
 
         self.weekday = WeekAndDay.my_week_day()  #오늘의 요일
-    
+        self.date_of_a_week_ago = date.today() + timedelta(days = -7) #7일전의 날짜
     
     def tearDown(self):
         """테스트 후에 시행-- 테스트에 에러가 발생해도 실행된다"""
         self.browser.quit()
     
     def find_rows_from_table_id(self, id):
-        """id에서 tr을 뽑아낸 후 각 row에서 text를 뽑아내 리스트로 만들어 리턴한다."""
+        """id에서 tr을 뽑아낸 후 각 row에서 text를 뽑아내 row별 리스트로 만들어 리턴한다."""
         table = self.browser.find_element_by_id(id)
         rows = table.find_elements_by_tag_name('tr')
         return [row.text for row in rows]

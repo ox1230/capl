@@ -11,12 +11,14 @@ def db_reset():
 
     #미리 설정되어 있는 데이터
     Category.objects.create(name = '군것질', assigned = 100000)
-    Category.objects.create(name = '세끼', assigned = 100000)
+    cate_seggi = Category.objects.create(name = '세끼', assigned = 100000)
     cate_gita = Category.objects.create(name = '기타', assigned = 100000)
 
 
     #저번주의 데이터가 이미 들어가 있다.
-    History.objects.create(category= cate_gita, price = 2700, name = "학식" ,written_date = date.today() + timedelta(days = -7)  )
+    History.objects.create(category= cate_seggi, price = 2000, name = "우라" ,written_date = date.today() + timedelta(days = -7)  )
+    History.objects.create(category= cate_seggi, price = 2700, name = "학식" ,written_date = date.today() + timedelta(days = -7)  )
+    History.objects.create(category= cate_gita, price = 15500, name = "JAVA의 정석" ,written_date = date.today() + timedelta(days = -7)  )
 
 class CategoryInfo:
     """특히 main과 관련된 각 category의 각종 정보를 저장한다.
@@ -46,11 +48,10 @@ class CategoryInfo:
 
     @classmethod
     def get_category_sum(cls, cate:Category, today = date.today()):
-        weekday = WeekAndDay.my_week_day()
-        week_start_date = today + timedelta(days = -weekday)
-        week_end_date = week_start_date + timedelta(days = 6)
-
-        hists_of_cate = History.objects.filter(category = cate, written_date__range = (week_start_date , week_end_date) )
+        
+        
+        hists_of_cate = History.objects.filter(category = cate,
+            written_date__range = WeekAndDay.get_week_start_and_end_date(today) )
 
         ret = sum([hist.price for hist in hists_of_cate])
         if ret == None:
@@ -80,6 +81,15 @@ class WeekAndDay:
             weekday += 1
         
         return weekday
+    
+    @classmethod
+    def get_week_start_and_end_date(cls, today = date.today()):
+        """ret:  tuple(start date(sunday) of "today"'s week ,  end date(saturday) of "today"'s week)"""
+        weekday = WeekAndDay.my_week_day(today)
+        week_start_date = today + timedelta(days = -weekday)
+        week_end_date = week_start_date + timedelta(days = 6)
+
+        return (week_start_date, week_end_date)
 
 
 

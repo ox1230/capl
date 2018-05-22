@@ -18,4 +18,7 @@ class History(models.Model):
     
     def get_absolute_url(self):
         return reverse('add_history')
+
+    def __str__(self):
+        return "{} {} {} {}".format(self.written_date.strftime("%Y-%m-%d"), self.category, self.name, self.price)
     

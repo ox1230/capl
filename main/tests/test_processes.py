@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
-from main.process import db_reset, Processing, CategoryInfo
+from main.process import db_reset, Processing, CategoryInfo, WeekAndDay
 
 from datetime import date, timedelta
 import re
@@ -27,7 +27,7 @@ class ProcessingTest(TestCase):
         self.assertNotIn(hist, all_histes)
 
         self.assertEqual(all_cates.count(), 3)
-        self.assertEqual(all_histes.count(), 1)
+        self.assertEqual(all_histes.count(), 3)
 
     def test_can_process_total_assigned(self):
         Category.objects.create(name ="1", assigned = 1000)
@@ -57,3 +57,4 @@ class ProcessingTest(TestCase):
         
         self.assertEqual(CategoryInfo.get_category_residual(cate1), 4000)
         self.assertEqual(CategoryInfo.get_category_residual(cate2), 10000)
+

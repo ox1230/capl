@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+얼마나 썼지?
+{% endblock title %}
+
+
+{% block body_block %}
+<div class = "container">
+    <div class = "row">
+        <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
+            <h3>이번주 내역</h3>
+            <div class = "text-center">
+                <table id = "this_week_history_box" class = "col-xs-12 table-hober">
+                    <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
+                    {% for hist, date in this_week_history.items %}
+                    <tr>
+                        <td>{{date}}</td>
+                        <td>{{hist.category}}</td>
+                        <td>{{hist.name}}</td>
+                        <td>{{hist.price}}원</td>
+                    </tr>
+                    {% endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class = "row">
+        <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">
+            <h3>그 전 내역</h3>
+            <table id = "long_ago_history_box" class = "col-xs-12 table-hober">
+                    <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
+                    {% for hist, date in long_ago_history.items %}
+                    <tr>
+                        <td>{{date}}</td>
+                        <td>{{hist.category}}</td>
+                        <td>{{hist.name}}</td>
+                        <td>{{hist.price}}원</td>
+                    </tr>
+                    {% endfor%}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body_block %}

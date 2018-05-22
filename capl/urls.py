@@ -22,5 +22,6 @@ urlpatterns = [
     path('reset/', views.reset, name= "reset"),
     path('main/', views.home_page, name= "main"),
     path('add_history/', views.add_history, name = "add_history"),
+    path('show_history/', views.show_history, name = "show_history"),
     path('admin/', admin.site.urls),
 ]
