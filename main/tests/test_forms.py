@@ -7,6 +7,7 @@ from main.models import Category, History
 from main.process import Processing
 from main.forms import HistoryForm
 
+from datetime import date
 from unittest import skip
 import re
 
@@ -16,6 +17,7 @@ def remove_csrf_tag(text):
     return re.sub(r'<[^>]*csrfmiddlewaretoken[^>]*>', '', text)
 
 class HistoryFormTest(TestCase):
+    
     @skip
     def test_form_html(self):
         form = HistoryForm()
@@ -26,28 +28,29 @@ class HistoryFormTest(TestCase):
         
         self.assertIn('class="form-control input"',form.as_p())
         self.assertIn('select',form.as_p())
-    
+
     def test_form_validation_for_blank(self):
         cate = Category.objects.create()
-        form = HistoryForm(data = {'name':'', 'category':cate.id, 'price':1000})
+        form = HistoryForm(data = {'name':'', 'category':cate.id, 'price':1000, 'written_date': date.today()})
         self.assertTrue(form.is_valid())
 
-        form = HistoryForm(data = {'name':'', 'category':None, 'price':1000})
+        form = HistoryForm(data = {'name':'', 'category':None, 'price':1000, 'written_date': date.today()})
         self.assertFalse(form.is_valid())
 
-        form = HistoryForm(data = {'name':'', 'category':cate.id, 'price':None})
+        form = HistoryForm(data = {'name':'', 'category':cate.id, 'price':None ,'written_date': date.today()})
         self.assertFalse(form.is_valid())
 
  
     def test_form_save_handles_saving_to_a_list(self):
         cate = Category.objects.create()
         
-        form = HistoryForm(data = {'name':'hihi', 'category':cate.id, 'price':1000})
+        form = HistoryForm(data = {'name':'hihi', 'category':cate.id, 'price':1000, 'written_date': date.today()})
         new_history = form.save()
         self.assertEqual(new_history, History.objects.first())
         self.assertEqual(new_history.name, 'hihi')
         self.assertEqual(new_history.category , cate)
         self.assertEqual(new_history.price ,1000)
+        self.assertEqual(new_history.written_date ,date.today())
         
         
 

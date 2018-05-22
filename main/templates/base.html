@@ -13,40 +13,40 @@
     </head>
     <body>
         <nav class="navbar navbar-inverse">
-            <div class= "container-fluid">
-                <div class="navbar-header">
-                    
-                    <a class="navbar-brand" href="{% url 'main' %}">Cash Planner</a>
-                    <a id = "add_history_menu"  href = "{% url 'add_history' %}" 
-                        role ="button" class ="btn btn-info">바로 기록하기</a>
-                    <a id = "reset_menu"  href = "{% url 'reset' %}" 
-                        role ="button" class ="btn btn-danger">DB리셋</a>
-            
-                    <button type = "button" class= "navbar-toggle btn-info" 
-                    data-toggle = "collapse" data-target ="#top-menu-collapse" >
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span> 
-                        <span class="icon-bar"></span> 
-                    </button>
-                </div>
-                <div id= "top-menu-collapse" class= "collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class = "nav-item"><a class= "nav-link" href = "{% url 'add_history'%}">기록하기(세부메뉴)</a></li>
-                        <li class = "nav-item"><a class = "nav-link" data-toggle="popover" data-placement = "bottom"
-                            title="개발중" data-content="아직 만들지 않았습니다 ㅠㅠ">얼마나 썼지?</a></li>
-                        <li class = "nav-item"><a class = "nav-link" data-toggle="popover" data-placement = "bottom"
-                            title="개발중" data-content="아직 만들지 않았습니다 ㅠㅠ">설정 변경</a></li>
-                    </ul>
-                     <script>     
-                        //popup을 작동시키는 script
-                            $(document).ready(function(){
-                                $('[data-toggle="popover"]').popover(
-                                    {container: 'body'}
-                                ); 
-                            });
-                    </script>
-                </div>  
+           
+            <div class="navbar-header">
+                
+                <a class="navbar-brand" href="{% url 'main' %}">Cash Planner</a>
+                <a id = "add_history_menu"  href = "{% url 'add_history' %}" 
+                    role ="button" class ="btn btn-default">바로 기록하기</a>
+                <a id = "reset_menu"  href = "{% url 'reset' %}" 
+                    role ="button" class ="btn btn-danger">DB리셋</a>
+        
+                <button type = "button" class= "navbar-toggle btn-info" 
+                data-toggle = "collapse" data-target ="#top-menu-collapse" >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> 
+                    <span class="icon-bar"></span> 
+                </button>
             </div>
+            <div id= "top-menu-collapse" class= "collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class = "nav-item"><a class= "nav-link" href = "{% url 'add_history'%}">기록하기(세부메뉴)</a></li>
+                    <li class = "nav-item"><a class = "nav-link" data-toggle="popover" data-placement = "bottom"
+                        title="개발중" data-content="아직 만들지 않았습니다 ㅠㅠ">얼마나 썼지?</a></li>
+                    <li class = "nav-item"><a class = "nav-link" data-toggle="popover" data-placement = "bottom"
+                        title="개발중" data-content="아직 만들지 않았습니다 ㅠㅠ">설정 변경</a></li>
+                </ul>
+                    <script>     
+                    //popup을 작동시키는 script
+                        $(document).ready(function(){
+                            $('[data-toggle="popover"]').popover(
+                                {container: 'body'}
+                            ); 
+                        });
+                </script>
+            </div>  
+      
         </nav>
         
         {% comment %} <div style="margin-top:40px"></div> {% endcomment %}

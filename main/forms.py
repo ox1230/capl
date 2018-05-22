@@ -1,12 +1,20 @@
 from django import forms
 from .models import History, Category
+from datetime import date
 
 class HistoryForm(forms.models.ModelForm):
     class Meta:
         model = History
-        fields = ('category', 'name', 'price',)
-        labels = {'category': '분류', 'name':"내용", "price": '금액'}
+        fields = ('written_date', 'category', 'name', 'price',)
+        labels = {'written_date':'일자', 'category': '분류', 'name':"내용", "price": '금액'}
         widgets = {
+            'written_date': forms.fields.DateInput(
+                attrs = {
+                    'id' : 'history_written_date_inputBox',
+                    'class': 'form-control input',
+                    'value': date.today(),
+                }
+            ),
             'category': forms.fields.Select(
                 attrs = {
                      'id' : "history_category_inputBox",    

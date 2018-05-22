@@ -82,6 +82,7 @@ class AddhistoryTest(TestCase):
             data = {'category': cate_.id,
                     'name' : '거래내역내용',
                     'price' : '1000',
+                    'written_date': date.today(),
         })
 
         saved_history = History.objects.first()
@@ -89,6 +90,7 @@ class AddhistoryTest(TestCase):
         self.assertEqual(saved_history.category ,cate_ )
         self.assertEqual(saved_history.name , '거래내역내용')
         self.assertEqual(saved_history.price , 1000)
+        self.assertEqual(saved_history.written_date , date.today())
 
         self.assertRedirects(response, '/main/')
 
