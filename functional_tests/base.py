@@ -27,4 +27,24 @@ class FuntionalTest(LiveServerTestCase):
         table = self.browser.find_element_by_id(id)
         rows = table.find_elements_by_tag_name('tr')
         return [row.text for row in rows]
+
+    def go_to_page(self,me,page:str):
+        add_history_menu = me.browser.find_element_by_id("{}_menu".format(page))
+        add_history_menu.click()
+
+        time.sleep(1)
+        edith_list_url = me.browser.current_url
+        me.assertRegex(edith_list_url, '/{}/'.format(page))
+
+    def add_new_history(self,me, cate="군것질", name ="키위바나나", price = 2000, day = date.today()):
+        """새로운 history 추가 ---끝나고 메인 페이지로 이동하는것에 유의"""
+        self.go_to_page(me, "add_history")
+
+        me.browser.find_element_by_id("history_written_date_inputBox").clear()
+        me.browser.find_element_by_id("history_written_date_inputBox").send_keys(day.strftime('%Y-%m-%d'))
+        me.browser.find_element_by_id("history_category_inputBox").send_keys(cate)
+        me.browser.find_element_by_id("history_name_inputBox").send_keys(name)
+        me.browser.find_element_by_id("history_price_inputBox").send_keys(2000)
+        me.browser.find_element_by_id("add_history_button").click()
+        time.sleep(1)
     

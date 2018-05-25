@@ -17,11 +17,11 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
 
-                <a class="navbar-brand" href="{% url 'main' %}">Cash Planner</a>
+                <a class="navbar-brand" id= "main_menu" href="{% url 'main' %}">Cash Planner</a>
                 <a id = "add_history_menu"  href = "{% url 'add_history' %}" 
-                    role ="button" class ="btn btn-default btn-xs">바로 기록하기</a>
+                    role ="button" class ="btn btn-default ">바로 기록하기</a>
                 <a id = "reset_menu"  href = "{% url 'reset' %}" 
-                    role ="button" class ="btn btn-danger btn-xs">DB리셋</a>
+                    role ="button" class ="btn btn-danger">DB리셋</a>
         
                 <button type = "button" class= "navbar-toggle btn-info" 
                 data-toggle = "collapse" data-target ="#top-menu-collapse" >
