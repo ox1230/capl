@@ -59,3 +59,11 @@ def show_history(request:HttpRequest):
         'this_week_history' : this_week_history,
         'long_ago_history' : long_ago_history,
     })
+
+def delete_history(request:HttpRequest):
+    id = request.POST.get("id")
+
+    target = History.objects.filter(id = id)[0]
+    target.delete()
+
+    return redirect('show_history')

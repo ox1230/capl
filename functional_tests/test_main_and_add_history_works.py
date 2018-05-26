@@ -20,9 +20,9 @@ class AlreadyVisitorTest(FuntionalTest):
 
         #메뉴에서 거래내역추가를 눌러 거래내역 추가로 이동한다.
         # edith는 오늘의 식사/군것질 거래내역,  키위바나나 , 2000원을 입력한다. 
-        self.add_new_history(self, cate="군것질", name = "딸기바나나", price = 2000, day = date.today())
+        self.add_new_history( cate="군것질", name = "딸기바나나", price = 2000, day = date.today())
         #이어서 저번주의 세끼, 맘스터치 , 5600원을 입력한다.
-        self.add_new_history(self, cate= "세끼", name="맘스터치", price = 5600, day =date.today() + timedelta(days= -7) )
+        self.add_new_history( cate= "세끼", name="맘스터치", price = 5600, day =date.today() + timedelta(days= -7) )
         # 다시 메인 화면으로 돌아가지고, 현재 사용금액등이 변경되어 있다.   (사용금액 2000원,    사용가능금액 298000)
         # (계속 입력은 아직 추가 x)
        
@@ -41,7 +41,7 @@ class AlreadyVisitorTest(FuntionalTest):
   
         self.browser.get(self.live_server_url)
 
-        self.go_to_page(self,"add_history")
+        self.go_to_page("add_history")
 
         #에디스는 각 내역을 입력했지만, 취소하고 메인으로 돌아가고 싶다
         self.browser.find_element_by_id("history_category_inputBox").send_keys('군것질')

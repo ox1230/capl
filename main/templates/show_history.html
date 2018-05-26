@@ -4,43 +4,48 @@
 얼마나 썼지?
 {% endblock title %}
 
-
-{% block body_block %}
-<div class = "container">
-    <div class = "row">
-        <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
-            <h3>이번주 내역</h3>
-            <div class = "text-center">
-                <table id = "this_week_history_box" class = "col-xs-12 table-hober">
-                    <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
-                    {% for hist, date in this_week_history.items %}
-                    <tr>
-                        <td>{{date}}</td>
-                        <td>{{hist.category}}</td>
-                        <td>{{hist.name}}</td>
-                        <td>{{hist.price}}원</td>
-                    </tr>
-                    {% endfor%}
-                </table>
-            </div>
-        </div>
-    </div>
-    
-    <div class = "row">
-        <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">
-            <h3>그 전 내역</h3>
-            <table id = "long_ago_history_box" class = "col-xs-12 table-hober">
-                    <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
-                    {% for hist, date in long_ago_history.items %}
-                    <tr>
-                        <td>{{date}}</td>
-                        <td>{{hist.category}}</td>
-                        <td>{{hist.name}}</td>
-                        <td>{{hist.price}}원</td>
-                    </tr>
-                    {% endfor%}
-            </table>
-        </div>
-    </div>
+{% block first_row_block %}
+<h3>이번주 내역</h3>
+<div class = "text-center">
+    <table id = "this_week_history_box" class = "col-xs-12 table-hober">
+        <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
+        {% for hist, date in this_week_history.items %}
+        <tr>
+            <td>{{date}}</td>
+            <td>{{hist.category}}</td>
+            <td>{{hist.name}}</td>
+            <td>{{hist.price}}원</td>
+            <td><form action = "{% url 'delete_history' %}" method = "post">
+                {% csrf_token %}
+                <input name = "id" value ="{{hist.id}}" hidden>
+                <button type="submit" class = "btn btn-danger btn-xs"
+                    id = "{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_delete_button">
+                    <span class= "glyphicon glyphicon-remove"></span></button>
+            </form></td>
+        </tr>
+        {% endfor%}
+    </table>
 </div>
-{% endblock body_block %}
+{% endblock first_row_block %}
+
+{% block second_row_block%}
+<h3>그 전 내역</h3>
+<table id = "long_ago_history_box" class = "col-xs-12 table-hober">
+        <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th></th></tr>
+        {% for hist, date in long_ago_history.items %}
+        <tr>
+            <td>{{date}}</td>
+            <td>{{hist.category}}</td>
+            <td>{{hist.name}}</td>
+            <td>{{hist.price}}원</td>
+            <td><form action = "{% url 'delete_history' %}" method = "post">
+                    {% csrf_token %}
+                    <input name = "id" value ="{{hist.id}}" hidden>
+                    <button type="submit" class = "btn btn-danger btn-xs"
+                        id = "{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_delete_button">
+                        <span class= "glyphicon glyphicon-remove"></span></button>
+                </form></td>
+        </tr>
+        {% endfor%}
+</table>
+{% endblock second_row_block %}

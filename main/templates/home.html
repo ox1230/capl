@@ -4,32 +4,25 @@
 주머니 상황
 {% endblock title %}
 
-
-{% block body_block %}
-<div class = "container">
-    <div class = "row">
-        <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
-            <h3>{{today_date}}</h3>
-            <h5>이번주에</h5>
-            <div class = "text-center">
-                <table id = "present_box" class = "col-xs-12 table-hober">
-                    <tr id = "total_sum"><td>사용한 돈</td><td>{{total_sum}}원 </td></tr>
-                    <tr id = "residual"><td>남은 돈</td><td>{{residual}}원</td></tr>
-                </table>
-            </div>
-        </div>
-    </div>
-    
-    <div class = "row">
-        <div class = "col-xs-12 col-md-6 col-md-offset-3 jumbotron">
-            <table id = "detail_box" class = "col-xs-12 table-hober">
-                <tr><td>분류</td><td>남은 돈</td><td>오늘 쓸 돈</td></tr>
-            {% for cate_info in list_of_category_info %}
-                <tr id = {{ cate_info.name }}><td>{{cate_info.name }}</td><td>{{ cate_info.resid }}원</td>
-                    <td>{{ cate_info.for_day }}원</td></tr>
-            {% endfor %}
-            </table>
-        </div>
-    </div>
+{%block first_row_block%}
+<h3>{{today_date}}</h3>
+<h5>이번주에</h5>
+<div class = "text-center">
+    <table id = "present_box" class = "col-xs-12 table-hober">
+        <tr id = "total_sum"><td>사용한 돈</td><td>{{total_sum}}원 </td></tr>
+        <tr id = "residual"><td>남은 돈</td><td>{{residual}}원</td></tr>
+    </table>
 </div>
-{% endblock body_block %}
+{%endblock first_row_block %}
+
+{%block second_row_block%}
+<table id = "detail_box" class = "col-xs-12 table-hober">
+    <tr><td>분류</td><td>남은 돈</td><td>오늘 쓸 돈</td></tr>
+{% for cate_info in list_of_category_info %}
+    <tr id = {{ cate_info.name }}><td>{{cate_info.name }}</td><td>{{ cate_info.resid }}원</td>
+        <td>{{ cate_info.for_day }}원</td></tr>
+{% endfor %}
+</table>
+{%endblock second_row_block %}
+
+

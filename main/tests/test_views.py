@@ -120,3 +120,15 @@ class ShowHistoryTest(TestCase):
         self.assertContains(response, "first_item")
         self.assertContains(response, "second_item")
 
+    def test_delete_history_delete_it_and_returns_correct_html(self):
+        cate = Category.objects.create(name = 'test', assigned = 100000)
+
+        hist = History.objects.create(category= cate, price = 2700, name = "first_item" ,written_date = date.today() )
+
+        response = self.client.post('/delete_history',data ={"id" : hist.id})
+
+        filt = History.objects.filter(id = hist.id)
+
+        self.assertNotIn(hist,filt)        
+        
+        self.assertRedirects(response, '/show_history/')

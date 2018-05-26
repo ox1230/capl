@@ -50,8 +50,21 @@
         </nav>
         
         {% comment %} <div style="margin-top:40px"></div> {% endcomment %}
-        {%block body_block%}
- 
-        {%endblock body_block%}
+        <div class = "container">
+            <div class = "row">
+                <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
+                    {%block first_row_block%}
+                    {%endblock first_row_block%}
+                </div>
+            </div>
+
+            <div class = "row">
+                <div class ="col-xs-12 col-md-6 col-md-offset-3 jumbotron">
+                    {%block second_row_block%}
+                    {%endblock second_row_block%}
+                </div>
+            </div>
+        </div>
+      
     </body>
 </html>

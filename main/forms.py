@@ -1,5 +1,5 @@
 from django import forms
-from .models import History, Category
+from main.models import History, Category
 from datetime import date
 
 class HistoryForm(forms.models.ModelForm):
