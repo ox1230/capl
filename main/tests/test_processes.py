@@ -58,3 +58,15 @@ class ProcessingTest(TestCase):
         self.assertEqual(CategoryInfo.get_category_residual(cate1), 4000)
         self.assertEqual(CategoryInfo.get_category_residual(cate2), 10000)
 
+class CategoryInfoTest(TestCase):
+    def test_category_info_init_well(self):
+        cate1 = Category.objects.create(name ="c1", assigned = 10000)
+        
+        History.objects.create(category = cate1, name="h1", price = 6000)
+
+        cate_info1 = CategoryInfo(cate1)
+
+        self.assertEqual(cate_info1.category, cate1)
+        self.assertEqual(cate_info1.name,'c1')
+        self.assertEqual(cate_info1.assigned, 10000)
+        self.assertEqual(cate_info1.for_day , 10000//(7- WeekAndDay.my_week_day()) -6000)   #오늘의 할당량에서 방금쓴 6000원을 뺀다.

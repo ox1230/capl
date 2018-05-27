@@ -36,7 +36,7 @@ class FuntionalTest(LiveServerTestCase):
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/{}/'.format(page))
 
-    def add_new_history(self, cate="군것질", name ="키위바나나", price = 2000, day = date.today()):
+    def add_new_history(self, cate="군것질", name ="키위바나나", price = 2000, day = date.today(), halbu = 0):
         """새로운 history 추가 ---끝나고 메인 페이지로 이동하는것에 유의"""
         self.go_to_page( "add_history")
 
@@ -44,7 +44,9 @@ class FuntionalTest(LiveServerTestCase):
         self.browser.find_element_by_id("history_written_date_inputBox").send_keys(day.strftime('%Y-%m-%d'))
         self.browser.find_element_by_id("history_category_inputBox").send_keys(cate)
         self.browser.find_element_by_id("history_name_inputBox").send_keys(name)
-        self.browser.find_element_by_id("history_price_inputBox").send_keys(2000)
+        self.browser.find_element_by_id("history_price_inputBox").send_keys(price)
+        # self.browser.find_element_by_id("history_halbu_inputBox").send_keys(halbu)
+        
         self.browser.find_element_by_id("add_history_button").click()
         time.sleep(1)
     

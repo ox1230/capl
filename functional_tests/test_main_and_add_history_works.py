@@ -6,7 +6,7 @@ from .base import FuntionalTest
 
 from main.views import NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from datetime import date , timedelta
-import unittest
+from unittest import skip
 import time
 
 
@@ -31,7 +31,7 @@ class AlreadyVisitorTest(FuntionalTest):
         self.assertIn('남은 돈 298000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 98000원 {}원'.format(98000// (7-self.weekday)), rows_text)
+        self.assertIn('군것질 98000원 {}원'.format(100000// (7-self.weekday) - 2000), rows_text)
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
@@ -60,3 +60,35 @@ class AlreadyVisitorTest(FuntionalTest):
         self.assertIn('군것질 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+    
+    @skip
+    def test_add_history_and_halbu_works(self):
+        #Edith는 사이트에 접속한다. 
+        self.browser.get(self.live_server_url)
+
+        #에디스는 하리보, 10000원, 나만의 할부 5주를 입력한다. 
+        self.add_new_history(cate="군것질",name= "하리보", price = 10000, halbu = 5)
+
+        #5주이므로 2000원어치만 표시되어 있다.
+        rows_text = self.find_rows_from_table_id("present_box")
+        self.assertIn('사용한 돈 2000원', rows_text)
+        self.assertIn('남은 돈 298000원', rows_text )
+
+        rows_text =  self.find_rows_from_table_id('detail_box')
+        self.assertIn('군것질 98000원 {}원'.format(100000 // (7-self.weekday) - 2000), rows_text)
+        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+
+
+        #에디스는 저번주에 구입한 맥심 모카골드 12000원 짜리를 12주 할부 처리한다.
+        self.add_new_history(cate ="기타", name = "맥심 모카골드", price = 12000, halbu = 12, day = date.today() + timedelta(days= -7))
+
+        #메인메뉴에는 1000원짜리로 기록되어 있다.
+        rows_text = self.find_rows_from_table_id("present_box")
+        self.assertIn('사용한 돈 3000원', rows_text)
+        self.assertIn('남은 돈 297000원', rows_text )
+
+        rows_text =  self.find_rows_from_table_id('detail_box')
+        self.assertIn('군것질 98000원 {}원'.format(100000// (7-self.weekday) - 2000), rows_text)
+        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 99000원 {}원'.format(100000// (7-self.weekday) - 1000) , rows_text)

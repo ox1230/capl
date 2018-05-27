@@ -106,7 +106,7 @@ class ShowHistoryTest(TestCase):
         
              # 사용자가 보낸 요청 확인
         request = HttpRequest()
-        response = show_history("/show_history/")   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
+        response =  self.client.get("/show_history/")   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
         
 
         expected_html = render_to_string('show_history.html', request = request, context = 

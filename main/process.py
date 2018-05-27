@@ -34,6 +34,7 @@ class CategoryInfo:
             self.resid = CategoryInfo.get_category_residual(cate, today)
         
         if self.for_day == None:
+           #for_day = 오늘 시작할때의 할당량 - 오늘 쓴 돈들
             weekday = today.weekday()
             # 일요일: 0, 토요일: 6
             if weekday == 6:
@@ -41,7 +42,10 @@ class CategoryInfo:
             else:
                 weekday += 1
 
-            self.for_day = self.resid // (7-weekday)
+            #할당량에서 오늘 분량은 빼야한다.
+            today_sum =sum([hist.price for hist in History.objects.filter(category = cate ,written_date = today)])
+            
+            self.for_day = ((self.resid + today_sum) // (7-weekday)) - today_sum
         
     def __str__(self):
         return "category:{}, resid:{}, for_day:{}".format(self.category.name,self.resid,self.for_day)

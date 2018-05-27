@@ -6,7 +6,7 @@ from .base import FuntionalTest
 
 from main.views import NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from datetime import date , timedelta
-import unittest
+from unittest import skip
 import time
 
 
@@ -45,6 +45,7 @@ class AlreadyVisitorTest(FuntionalTest):
     self.assertIn("{} 세끼 우라 2000원".format(self.date_of_a_week_ago.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)), long_ago)
     self.assertIn("{} 세끼 학식 2700원".format(self.date_of_a_week_ago.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)), long_ago)
     self.assertIn("{} 기타 JAVA의 정석 15500원".format(self.date_of_a_week_ago.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)), long_ago)
+
 
   def test_delete_button_works_well(self):
     #edith가 해당 웹사이트 방문
