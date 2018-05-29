@@ -61,14 +61,13 @@ class AlreadyVisitorTest(FuntionalTest):
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
     
-    @skip
+class HalbuTest(FuntionalTest):
     def test_add_history_and_halbu_works(self):
         #Edith는 사이트에 접속한다. 
         self.browser.get(self.live_server_url)
 
         #에디스는 하리보, 10000원, 나만의 할부 5주를 입력한다. 
         self.add_new_history(cate="군것질",name= "하리보", price = 10000, halbu = 5)
-
         #5주이므로 2000원어치만 표시되어 있다.
         rows_text = self.find_rows_from_table_id("present_box")
         self.assertIn('사용한 돈 2000원', rows_text)
@@ -91,4 +90,4 @@ class AlreadyVisitorTest(FuntionalTest):
         rows_text =  self.find_rows_from_table_id('detail_box')
         self.assertIn('군것질 98000원 {}원'.format(100000// (7-self.weekday) - 2000), rows_text)
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
-        self.assertIn('기타 99000원 {}원'.format(100000// (7-self.weekday) - 1000) , rows_text)
+        self.assertIn('기타 99000원 {}원'.format(99000// (7-self.weekday)) , rows_text)

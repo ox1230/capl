@@ -3,10 +3,10 @@ from django.urls import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
-from main.models import Category, History
+from main.models import Category, History , HalbuHistory
 from main.process import Processing
 
-from datetime import date
+from datetime import date , timedelta
 import re
 
 # Create your tests here.
@@ -36,8 +36,7 @@ class HistoryModelTest(TestCase):
         self.assertEqual(hist.name , name)
         self.assertEqual(hist.price, price)
         self.assertEqual(hist.written_date , written_date)
-
-
+    
 
 class CategoryModelTest(TestCase):
     def test_can_insert_category_well(self):
@@ -51,5 +50,23 @@ class CategoryModelTest(TestCase):
         self.assertEqual(cate.name , name)
         
         
+class HalbuHistoryTest(TestCase):
+    def test_can_insert_halbu_history_well(self):
+        cate =  Category.objects.create(name = '첫번째분류')
+        name= "test"
+        price = 2100
+        written_date = date(2018,5,6)  #월요일
+        History.objects.create(category = cate ,name = name, price = price, written_date = written_date, halbu_week = 3)
+        hist = History.objects.first()
 
-        
+        HalbuHistory.objects.create(history = hist, category = cate, 
+            second_week_date = written_date+ timedelta(days= 7), last_week_date = written_date + timedelta(days = 14),
+            depre = 2100//3)
+            
+        halbu = HalbuHistory.objects.first()
+
+        self.assertEqual(halbu.category, cate)
+        self.assertEqual(halbu.history, hist)
+        self.assertEqual(halbu.depre, price//3)
+        self.assertEqual(halbu.last_week_date,  written_date + timedelta(days = 14))
+     

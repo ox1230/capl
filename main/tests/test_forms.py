@@ -3,7 +3,7 @@ from django.urls import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
-from main.models import Category, History
+from main.models import Category, History, HalbuHistory
 from main.process import Processing
 from main.forms import HistoryForm
 
@@ -51,7 +51,24 @@ class HistoryFormTest(TestCase):
         self.assertEqual(new_history.category , cate)
         self.assertEqual(new_history.price ,1000)
         self.assertEqual(new_history.written_date ,date.today())
+    
+    def test_form_save_history_and_halbu_well(self):
+        cate = Category.objects.create()
         
-        
+        form = HistoryForm(data = {'name':'hihi', 'category':cate.id, 'price':2400, 'written_date': date.today(), 
+        'halbu_week': 3})
+
+        new_history = form.save()
+        halbu = HalbuHistory.objects.first()
+
+        self.assertEqual(new_history, History.objects.first())
+        self.assertEqual(new_history.name, 'hihi')
+        self.assertEqual(new_history.category , cate)
+        self.assertEqual(new_history.price ,2400)
+        self.assertEqual(new_history.written_date ,date.today())
+
+        self.assertEqual(halbu.category, cate)
+        self.assertEqual(halbu.history, new_history)
+        self.assertEqual(halbu.depre, 800)
 
         

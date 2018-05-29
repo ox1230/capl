@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category
 from .base import FuntionalTest
-import unittest
+from unittest import skip
 import time
 
 
@@ -30,6 +30,7 @@ class VisitorTest(FuntionalTest):
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
+    @skip
     def test_layout_and_styling(self):
         """layout전체가 아니라 css가 제대로 붙어졌는지 정도를 체크함"""
         #에디스는 일반 컴퓨터로 메인페이지를 방문한다
@@ -37,7 +38,7 @@ class VisitorTest(FuntionalTest):
         self.browser.set_window_size( 1024,768 )
 
         #에디스는 현재상황 표시 메인 상자가 가운데 위치한것을 확인한다.
-        present_box = self.browser.find_element_by_id('present_box')
+        present_box = self.browser.find_elements_by_class_name('row')[0]
 
         self.assertAlmostEqual(
             present_box.location['x'] + present_box.size['width']/2,

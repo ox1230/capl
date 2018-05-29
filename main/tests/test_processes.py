@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from main.views import home_page
 from main.models import Category, History
 from main.process import db_reset, Processing, CategoryInfo, WeekAndDay
+from main.forms import HistoryForm
 
 from datetime import date, timedelta
 import re
@@ -40,7 +41,6 @@ class ProcessingTest(TestCase):
         cate = Category.objects.create(name ="1", assigned = 5000)
         Category.objects.create(name ="2", assigned = 5000)
         
-
         History.objects.create(category = cate, name="1", price = 2000, written_date = date.today())
         History.objects.create(category = cate, name="2", price = 2000, written_date = date.today()- timedelta(days=10))
 
@@ -57,6 +57,26 @@ class ProcessingTest(TestCase):
         
         self.assertEqual(CategoryInfo.get_category_residual(cate1), 4000)
         self.assertEqual(CategoryInfo.get_category_residual(cate2), 10000)
+
+    def test_can_process_halbu_for_total_and_each_category_residual(self):
+        cate1 = Category.objects.create(name ="c1", assigned = 10000)
+        
+        form = HistoryForm(data = {'category':cate1.id, 'price': 2400, 'written_date': date.today(), 'name': 'h1', 'halbu_week':2})
+        form.save()
+        
+        form2 = HistoryForm(data = {'category':cate1.id, 'price': 3200, 'written_date': date.today() + timedelta(days= -7), 'name': 'h1', 'halbu_week':2})
+        # 1주일 전것 추가\
+        form2.save()
+
+        cateinfo = CategoryInfo(cate1)
+        self.assertEqual(cateinfo.resid, 10000- 1200 - 1600)
+        self.assertEqual(cateinfo.for_day, (10000-1600)//(7-WeekAndDay.my_week_day())   - 1200)
+
+        infos_main = Processing.get_informations_for_main()
+        self.assertEqual(infos_main['total_assigned'], 10000)
+        self.assertEqual(infos_main['total_sum'], 2800)
+        self.assertEqual(infos_main['total_residual'], 10000- 1200 - 1600)
+
 
 class CategoryInfoTest(TestCase):
     def test_category_info_init_well(self):

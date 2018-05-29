@@ -1,6 +1,6 @@
 
 from django.db.models.query import QuerySet
-from main.models import Category, History
+from main.models import Category, History, HalbuHistory
 from django.utils import timezone
 from datetime import date, timedelta
 
@@ -34,7 +34,7 @@ class CategoryInfo:
             self.resid = CategoryInfo.get_category_residual(cate, today)
         
         if self.for_day == None:
-           #for_day = 오늘 시작할때의 할당량 - 오늘 쓴 돈들
+           #for_day = 오늘 시작할때의 할당량(assigned - 이번주 ) - 오늘 쓴 돈들
             weekday = today.weekday()
             # 일요일: 0, 토요일: 6
             if weekday == 6:
@@ -43,7 +43,7 @@ class CategoryInfo:
                 weekday += 1
 
             #할당량에서 오늘 분량은 빼야한다.
-            today_sum =sum([hist.price for hist in History.objects.filter(category = cate ,written_date = today)])
+            today_sum =sum([hist.price//hist.halbu_week for hist in History.objects.filter(category = cate ,written_date = today)])
             
             self.for_day = ((self.resid + today_sum) // (7-weekday)) - today_sum
         
@@ -56,8 +56,15 @@ class CategoryInfo:
         
         hists_of_cate = History.objects.filter(category = cate,
             written_date__range = WeekAndDay.get_week_start_and_end_date(today) )
+        
+        ret = sum([hist.price//hist.halbu_week for hist in hists_of_cate])   # halbu_week는 반드시 1로!!
+        
+        hists_of_cate_in_halbu = HalbuHistory.objects.filter( category = cate,
+            second_week_date__lte = date.today(), last_week_date__gte = date.today())
+        
+        ret += sum([halbu.depre for halbu in hists_of_cate_in_halbu])
 
-        ret = sum([hist.price for hist in hists_of_cate])
+
         if ret == None:
             ret = 0
         
