@@ -40,7 +40,7 @@ class HistoryForm(forms.models.ModelForm):
                     'id' : 'history_halbu_week_inputBox',
                     'class': "form-control input",
                     'placeholder': "안씀(1주)",
-                }
+                    }
             ),
         }
 
