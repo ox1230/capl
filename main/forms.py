@@ -19,7 +19,7 @@ class HistoryForm(forms.models.ModelForm):
             'category': forms.fields.Select(
                 attrs = {
                      'id' : "history_category_inputBox",    
-                     'class' : "form-control input",
+                     'class' : "form-control input-xs",
                 }
             ),
             'name' : forms.fields.TextInput(
