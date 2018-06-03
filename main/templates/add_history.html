@@ -4,12 +4,22 @@
 기록하기
 {% endblock title %}
 
+{% block add_on_source %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+<script src="/static/js/add_history.js" charset="UTF-8"></script>
+{% endblock%}
+
+
+
 {% block first_row_block%}
 <div class = "text-center">
-    <form method = "POST" class = "form" action = '{% url "add_history" %}'>
+    <form method = "POST" class = "form-horizontal" action = '{% url "add_history" %}'>
         <fieldset id = "normally_add_history_box">
             {{ add_history_form }}
             {% csrf_token %}
+            
             {% if add_history_form.error %}
                 <div class = "form-group has-error">
                     <span class = "help-block">{{ form.text.errors }}</span>

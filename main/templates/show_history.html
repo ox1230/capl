@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 
+
+
+
 {% block title %}
 얼마나 썼지?
 {% endblock title %}
 
+
+
 {% block first_row_block %}
-<h3>이번주 내역</h3>
+<h3>이번주</h3>
 <div class = "text-center">
     <table id = "this_week_history_box" class = "col-xs-12 table-hober">
         <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
@@ -24,7 +29,7 @@
                 </form></td>
             </tr>
             {% if hist.halbu_week >= 2%}
-            <tr>
+            <tr class = "text-muted">
                 <td></td><td></td>
                 <td>
                     {{hist.halbu_week}}주 할부
@@ -46,7 +51,7 @@
 {% endblock first_row_block %}
 
 {% block second_row_block%}
-<h3>그 전 내역</h3>
+<h3>그 전</h3>
 <table id = "long_ago_history_box" class = "col-xs-12 table-hober">
         <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th></th></tr>
         {% for hist, date in long_ago_history.items %}
@@ -63,6 +68,22 @@
                         <span class= "glyphicon glyphicon-remove"></span></button>
                 </form></td>
         </tr>
+        {% if hist.halbu_week >= 2%}
+            <tr class = "text-muted">
+                <td></td><td></td>
+                <td>
+                    {{hist.halbu_week}}주 할부
+                </td>
+                <td id = 'halbu_price'>
+                </td>
+            </tr>
+            <script>
+                    $(document).ready(function(){
+                        $('#halbu_price').html(parseInt({{hist.price}}/{{hist.halbu_week}}) + "원");
+                    });
+               
+            </script>
+            {% endif %}
         {% endfor%}
 </table>
 {% endblock second_row_block %}

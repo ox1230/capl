@@ -7,7 +7,7 @@ class HistoryForm(forms.models.ModelForm):
     class Meta:
         model = History
         fields = ('written_date', 'category', 'name', 'price','halbu_week')
-        labels = {'written_date':'일자', 'category': '분류', 'name':"내용", "price": '금액', 'halbu_week':'나만의 할부(안쓰면 1)'}
+        labels = {'written_date':'일자', 'category': '분류', 'name':"내용", "price": '금액', 'halbu_week':'나만의 할부'}
         widgets = {
             'written_date': forms.fields.DateInput(
                 attrs = {
