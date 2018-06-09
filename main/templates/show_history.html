@@ -8,7 +8,6 @@
 {% endblock title %}
 
 {% block add_on_source %}
-<link rel="stylesheet" href="/static/css/table-borderless.css">
 
 {% endblock %}
 
@@ -72,14 +71,14 @@
         <tr class = "text-muted for-halbu">
             <td></td><td></td>
             <td>
-                {{hist.halbu_week}}주 할부
+                <small>{{hist.halbu_week}}주 할부</small>
             </td>
             <td id = 'halbu_price'>
             </td>
         </tr>
         <script>
                 $(document).ready(function(){
-                    $('#halbu_price').html(parseInt({{hist.price}}/{{hist.halbu_week}}) + "원");
+                    $('#halbu_price').html("<small>"+parseInt({{hist.price}}/{{hist.halbu_week}}) + "원</small>");
                 });
            
         </script>

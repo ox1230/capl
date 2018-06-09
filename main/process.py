@@ -22,13 +22,14 @@ def db_reset():
 
 class CategoryInfo:
     """특히 main과 관련된 각 category의 각종 정보를 저장한다.
-    @값들: category, name, assigned, resid, for_day"""
+    @값들: category, name, assigned, resid, for_day, for_day_recommend"""
     def __init__(self, cate, resid = None, for_day= None , today = date.today()):
         self.category = cate
         self.name = cate.name
         self.assigned = cate.assigned
         self.resid = resid
         self.for_day = for_day
+        self.for_day_recommend = self.assigned // 7
         
         if self.resid == None:
             self.resid = CategoryInfo.get_category_residual(cate, today)
