@@ -25,7 +25,7 @@ SECRET_KEY = 'k^l^#dciioyj(933%^w0(oe_qz_9-1@3xx#z849x!%%_@-&3x1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cashplanner.pythoneverywhere.com',]
 
 
 # Application definition
