@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category
-from .base import FuntionalTest
+from .base import FunctionalTest
 
 from main.views import NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from datetime import date , timedelta
@@ -10,7 +10,7 @@ from unittest import skip
 import time
 
 
-class AlreadyVisitorTest(FuntionalTest):
+class AlreadyVisitorTest(FunctionalTest):
         
     def test_add_history_and_can_write_history_of_past(self):
         """ 과거 내역도 저장하기"""
@@ -61,7 +61,7 @@ class AlreadyVisitorTest(FuntionalTest):
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
     
-class HalbuTest(FuntionalTest):
+class HalbuTest(FunctionalTest):
     def test_add_history_and_halbu_works(self):
         #Edith는 사이트에 접속한다. 
         self.browser.get(self.live_server_url)

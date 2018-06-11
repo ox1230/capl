@@ -22,7 +22,7 @@ def db_reset():
 
 class CategoryInfo:
     """특히 main과 관련된 각 category의 각종 정보를 저장한다.
-    @값들: category, name, assigned, resid, for_day, for_day_recommend"""
+    @value: category, name, assigned, resid, for_day, for_day_recommend"""
     def __init__(self, cate, resid = None, for_day= None , today = date.today()):
         self.category = cate
         self.name = cate.name
@@ -65,7 +65,6 @@ class CategoryInfo:
         
         ret += sum([halbu.depre for halbu in hists_of_cate_in_halbu])
 
-
         if ret == None:
             ret = 0
         
@@ -83,7 +82,7 @@ class WeekAndDay:
     @classmethod
     def my_week_day(cls, today = date.today()):
         """요일 리턴
-        @ sun:0 ~ sat: 6"""
+        @return: Sun=0 ~ Sat=6"""
         
         weekday = today.weekday()
       
@@ -102,11 +101,8 @@ class WeekAndDay:
         week_end_date = week_start_date + timedelta(days = 6)
 
         return (week_start_date, week_end_date)
-
-
-
-
 ###### End of WeekAndDay #####################################
+
 class Processing():
     """중복된 작업에 대한 최적화 작업"""
     @classmethod

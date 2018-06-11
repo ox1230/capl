@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category
-from .base import FuntionalTest
+from .base import FunctionalTest
 
 from main.views import NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from datetime import date , timedelta
@@ -10,7 +10,7 @@ from unittest import skip
 import time
 
 
-class AlreadyVisitorTest(FuntionalTest):
+class AlreadyVisitorTest(FunctionalTest):
         
   def test_show_history_show_histories_well(self):
 
@@ -75,5 +75,26 @@ class AlreadyVisitorTest(FuntionalTest):
           "{} 군것질 키위바나나 2000원".format(date.today().strftime(WITHOUT_WEEKDAY_DATE_FORMAT)),
           self.find_rows_from_table_id("this_week_history_box")
     )
+  
+
+class ClassroomTest(FunctionalTest):
+      
+  def test_week_start_and_end_date_are_displayed(self):
+            
+    #edith가 Cash Planner 방문
+    self.browser.get(self.live_server_url)
+
+    # 얼마나 썼지?로 이동한다.
+    self.go_to_page("show_history")
     
+  
+    # 날짜 구역을 확인한다.
+    week_dates = self.browser.find_element_by_id("week_start_and_end_date")
+
+    #날짜구역의 날짜가 제대로 되어 있는지 확인한다.
+    text = self.week_start_date.strftime(NORMAL_DATE_FORMAT) + " ~ " + self.week_end_date.strftime(NORMAL_DATE_FORMAT)
+    #text는 시작 날짜 ~ 끝 날짜 형식의 str으로 되어있다.  (예: "2018-06-10 Sunday ~ 2018-06-16 Saturday")
+    self.assertEqual(week_dates.text, text)
+
+
   

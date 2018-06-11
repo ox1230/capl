@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>Javascript tests</title>
+        <link rel = "stylesheet" href = qunit.css> 
+    
+
+        
+    </head>
+
+    <body>
+        <div id = "qunit"></div>
+        <div id ="qunit-fixture">
+            <small id = "week_start_and_end_date" class = "text-muted"> </small>
+        </div>
+        
+        <script src = "http://code.jquery.com/jquery.min.js"></script>
+        <script src = "qunit.js"></script>
+        <script src = "../js/show_history.js"></script>
+  
+        <script>
+            /* global $, test, equal */
+
+            test("이번 주의 시작 날짜와 끝 날짜 구하기", function(){
+                var weekDates = getWeekStartAndEndDate();
+                
+                equal(weekDates[0].getTime() , new Date("2018/06/10 00:00:00").getTime(), 'start date');
+                equal(weekDates[1].getTime() , new Date("2018/06/16 00:00:00").getTime(), 'end date');
+            });
+            
+            test("구한 날짜를 적절한 포맷으로 바꿔 html에 삽입", function(){
+                
+                var dateString = getTextFormat(new Date("2018/06/10 00:00:00"), new Date("2018/06/16 00:00:00"));
+                equal(dateString,  "2018-06-10 Sunday ~ 2018-06-16 Saturday", "문자열로 바꾸기");
+                
+                setTextTo("#week_start_and_end_date", dateString);
+                equal($("#week_start_and_end_date").text(), dateString, "html에 삽입");
+            });
+        </script>
+    </body>
+</html>
+

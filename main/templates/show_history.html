@@ -1,23 +1,39 @@
 {% extends "base.html" %}
 
-
-
-
 {% block title %}
 얼마나 썼지?
 {% endblock title %}
 
 {% block add_on_source %}
-
+<script src= "/static/js/show_history.js"></script>
 {% endblock %}
 
 
 {% block first_row_block %}
+<!-- <small id = "week_start_and_end_date" class = "text-muted"> {{ week_start_date }} ~ {{ week_end_date }} </small>  -->
+<small id = "week_start_and_end_date" class = "text-muted"> </small>
 <h3>이번주</h3>
 <div class = "text-center">
     <table id = "this_week_history_box" class = "col-xs-12 table table-borderless">
         <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
         {% for hist, date in this_week_history.items %}
+            {% if hist.halbu_week >= 2%}
+            {% comment %} 나만의 할부 적용시에만 나타남  {% endcomment %}
+            <tr class = "text-muted for-halbu">
+                <td></td><td></td>
+                <td>
+                    <small>{{hist.halbu_week}}주 할부</small>
+                </td>
+                <td id = '{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_halbu_price'>
+                </td>
+            </tr>
+            <script>
+                    $(document).ready(function(){
+                        $('#{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_halbu_price').html("<small>"+parseInt({{hist.price}}/{{hist.halbu_week}}) + "원</small>");
+                    });
+            
+            </script>
+            {% endif %}
             <tr>
                 <td>{{date}}</td>
                 <td>{{hist.category}}</td>
@@ -32,31 +48,11 @@
                         <span class= "glyphicon glyphicon-remove"></span>
                     </button>
                 </form></td>
+              
             </tr>
-            {% if hist.halbu_week >= 2%}
-            <tr class = "text-muted">
-                <td></td><td></td>
-                <td>
-                    {{hist.halbu_week}}주 할부
-                </td>
-                <td id = 'halbu_price'>
-                </td>
-            </tr>
-            <script>
-                    $(document).ready(function(){
-                        $('#halbu_price').html(parseInt({{hist.price}}/{{hist.halbu_week}}) + "원");
-                    });
-                    
-        
-                    //tooltip 작동
-                    $(document).ready(function(){
-                        $('[data-toggle="tooltip"]').tooltip(); 
-                    });
-        
-            </script>
-            {% endif %}
-
+          
         {% endfor%}
+  
     </table>
 </div>
 {% endblock first_row_block %}
@@ -66,38 +62,46 @@
 <table id = "long_ago_history_box" class = "col-xs-12 table table-borderless">
         <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th></th></tr>
         {% for hist, date in long_ago_history.items %}
-        {% if hist.halbu_week >= 2%}
-        {% comment %} 나만의 할부 적용시에만 나타남  {% endcomment %}
-        <tr class = "text-muted for-halbu">
-            <td></td><td></td>
-            <td>
-                <small>{{hist.halbu_week}}주 할부</small>
-            </td>
-            <td id = 'halbu_price'>
-            </td>
-        </tr>
-        <script>
-                $(document).ready(function(){
-                    $('#halbu_price').html("<small>"+parseInt({{hist.price}}/{{hist.halbu_week}}) + "원</small>");
-                });
-           
-        </script>
-        {% endif %}
-        <tr>
-            <td>{{date}}</td>
-            <td>{{hist.category}}</td>
-            <td>{{hist.name}}</td>
-            <td>{{hist.price}}원</td>
-            <td><form action = "{% url 'delete_history' %}" method = "post">
-                    {% csrf_token %}
-                    <input name = "id" value ="{{hist.id}}" hidden>
-                    <button type="submit" class = "btn btn-danger btn-xs"
-                        id = "{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_delete_button"
-                        data-toggle="tooltip" data-placement="top" title="삭제">
-                        <span class= "glyphicon glyphicon-remove"></span></button>
-                </form></td>
-        </tr>
-       
+            {% if hist.halbu_week >= 2 %}
+            {% comment %} 나만의 할부 적용시에만 나타남  {% endcomment %}
+            <tr class = "text-muted for-halbu">
+                <td></td><td></td>
+                <td>
+                    <small>{{hist.halbu_week}}주 할부</small>
+                </td>
+                <td id = '{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_halbu_price'>
+                </td>
+            </tr>
+            <script>
+                    $(document).ready(function(){
+                        $('#{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_halbu_price').html("<small>"+parseInt({{hist.price}}/{{hist.halbu_week}}) + "원</small>");
+                    });
+            
+            </script>
+            {% endif %}
+            <tr>
+                <td>{{date}}</td>
+                <td>{{hist.category}}</td>
+                <td>{{hist.name}}</td>
+                <td>{{hist.price}}원</td>
+                <td><form action = "{% url 'delete_history' %}" method = "post">
+                        {% csrf_token %}
+                        <input name = "id" value ="{{hist.id}}" hidden>
+                        <button type="submit" class = "btn btn-danger btn-xs"
+                            id = "{{date}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_delete_button"
+                            data-toggle="tooltip" data-placement="top" title="삭제">
+                            <span class= "glyphicon glyphicon-remove"></span></button>
+                    </form></td>
+            </tr>
+        
         {% endfor%}
 </table>
+      
+<script>
+        //tooltip 작동
+        $(document).ready(function(){
+         $('[data-toggle="tooltip"]').tooltip(); 
+         });
+</script>    
+
 {% endblock second_row_block %}

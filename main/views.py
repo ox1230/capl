@@ -45,19 +45,26 @@ def add_history(request:HttpRequest):
     })
 
 def show_history(request:HttpRequest):
-    histories = History.objects.filter(written_date__range = WeekAndDay.get_week_start_and_end_date())
+    
+    week_days = WeekAndDay.get_week_start_and_end_date()
+
+    histories = History.objects.filter(written_date__range = week_days)
     this_week_history = {}
     for hist in histories:
         this_week_history[hist] = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
 
-    histories = History.objects.exclude(written_date__range = WeekAndDay.get_week_start_and_end_date())
+    histories = History.objects.exclude(written_date__range = week_days)
     long_ago_history = {}
     for hist in histories:
         long_ago_history[hist] = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
     
+    
+
     return  render(request, 'show_history.html',{
         'this_week_history' : this_week_history,
         'long_ago_history' : long_ago_history,
+        'week_start_date': week_days[0].strftime(NORMAL_DATE_FORMAT),
+        'week_end_date': week_days[1].strftime(NORMAL_DATE_FORMAT),
     })
 
 def delete_history(request:HttpRequest):

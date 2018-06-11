@@ -3,11 +3,15 @@ from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category,History
 from main.process import db_reset ,WeekAndDay
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait 
+from selenium.webdriver.support import expected_conditions
+
 import unittest
 import time
 from datetime import date, timedelta
 
-class FuntionalTest(LiveServerTestCase):
+class FunctionalTest(LiveServerTestCase):
     def setUp(self):
         """테스트 시작 전에 수행"""
         self.browser = webdriver.Firefox()
@@ -16,6 +20,8 @@ class FuntionalTest(LiveServerTestCase):
         db_reset()
 
         self.weekday = WeekAndDay.my_week_day()  #오늘의 요일
+        self.week_start_date , self.week_end_date = WeekAndDay.get_week_start_and_end_date()  
+        #오늘이 있는주의 시작/끝 날짜
         self.date_of_a_week_ago = date.today() + timedelta(days = -7) #7일전의 날짜
     
     def tearDown(self):
@@ -29,9 +35,15 @@ class FuntionalTest(LiveServerTestCase):
         return [row.text for row in rows]
 
     def go_to_page(self,page:str):
-        add_history_menu = self.browser.find_element_by_id("{}_menu".format(page))
-        add_history_menu.click()
+        menu = self.browser.find_element_by_id("{}_menu".format(page))
+        menu.click()
 
+        # WebDriverWait(self.browser, 3).until(
+        #     expected_conditions.text_to_be_present_in_element(
+        #     (By.ID, 'thing-on-new-page'),
+        #     'expected new text'
+        #     )
+        # )
         time.sleep(1)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/{}/'.format(page))

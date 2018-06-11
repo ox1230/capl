@@ -2,12 +2,12 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 from main.models import Category
-from .base import FuntionalTest
+from .base import FunctionalTest
 from unittest import skip
 import time
 
 
-class VisitorTest(FuntionalTest):
+class VisitorTest(FunctionalTest):
     
     def test_first_main_show_correct_info(self):
         """  """
@@ -30,6 +30,7 @@ class VisitorTest(FuntionalTest):
         self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
         self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
+        
     @skip
     def test_layout_and_styling(self):
         """layout전체가 아니라 css가 제대로 붙어졌는지 정도를 체크함"""
