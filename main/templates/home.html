@@ -10,9 +10,10 @@
 
 {%block first_row_block%}
 <h3>{{today_date}}</h3>
-<div>이번주에</div>
+<h5>이번주 목표달성 상황</h5>
 <div class = "text-center">
     <table id = "present_box" class = "col-xs-12 table table-borderless">
+        <tr id = "total_assigned"><td>소비 목표</td><td>300000원</td></tr>
         <tr id = "total_sum"><td>사용한 돈</td><td>{{total_sum}}원 </td></tr>
         <tr id = "residual"><td>남은 돈</td><td>{{residual}}원</td></tr>
     </table>
@@ -20,6 +21,7 @@
 {%endblock first_row_block %}
 
 {%block second_row_block%}
+<h5>분류별 목표달성 상황</h5>
 <table id = "detail_box" class = "text-center table table-borderless">
     <thead>
         <th class = "text-center">분류</th>

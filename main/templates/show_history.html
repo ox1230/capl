@@ -9,8 +9,8 @@
 
 
 {% block first_row_block %}
+<h3>이번주 내역</h3>
 <small id = "week_start_and_end_date" class = "text-muted"> {{ week_start_date }} ~ {{ week_end_date }} </small> 
-<h3>이번주</h3>
 <div class = "text-center">
     <table id = "this_week_history_box" class = "col-xs-12 table table-borderless">
         <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
@@ -56,7 +56,7 @@
 {% endblock first_row_block %}
 
 {% block second_row_block%}
-<h3>그 전</h3>
+<h3>그 전 내역</h3>
 <table id = "long_ago_history_box" class = "col-xs-12 table table-borderless">
         <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th></th></tr>
         {% for hist, date in long_ago_history.items %}
