@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'k^l^#dciioyj(933%^w0(oe_qz_9-1@3xx#z849x!%%_@-&3x1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'cashplanner.pythonanywhere.com',]
 

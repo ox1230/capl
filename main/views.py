@@ -29,6 +29,7 @@ def home_page(request:HttpRequest):
         'total_sum': infos_of_main['total_sum'],
         'residual': infos_of_main['total_residual'],
         'list_of_category_info': infos_of_main['list_of_category_info'],
+        'category_json' : infos_of_main['category_json'],
     })
 
 def add_history(request:HttpRequest):

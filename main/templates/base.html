@@ -71,11 +71,13 @@
                     <div class= "col-xs-2 col-md-offset-5">
                         <a type="button" class="btn" data-toggle="collapse" data-target="#graph">
                             <span class= "glyphicon glyphicon-menu-down"></span></a>
-                        <div id="graph" class="collapse">
-                            <svg width = "50" height = "50">
-                                <ellipse cx = "25" cy = "25" rx = "22" ry = "11" fill = "red" stroke = "gray" stroke-width = "2"/>
-                            </svg>
-                        </div>
+                    </div>
+                    <div id="graph" class="collapse col-xs-12" >
+                        <svg id ="graph-canvas" class =  "col-xs-12" height = "500">
+                            <text id ="temp-text" x= "10" y= "30">추가중</text>
+                        </svg>
+                        {%block between_row %}
+                        {%endblock between_row %}
                     </div>
                 </div>
             </div>

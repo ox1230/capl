@@ -3,6 +3,7 @@ from django.db.models.query import QuerySet
 from main.models import Category, History, HalbuHistory
 from django.utils import timezone
 from datetime import date, timedelta
+import json
 
 def db_reset():
     
@@ -50,6 +51,16 @@ class CategoryInfo:
         
     def __str__(self):
         return "category:{}, resid:{}, for_day:{}".format(self.category.name,self.resid,self.for_day)
+
+    def json(self):
+        """ json 형태로 값들을 출력한다"""
+        memberDict = {key:value for key, value in self.__dict__.items() if not key.startswith('__') and not callable(key)}
+        
+        #카테고리는 제외한다.
+        del memberDict['category']
+        a = json.dumps(memberDict)
+        # print(a)
+        return a
 
     @classmethod
     def get_category_sum(cls, cate:Category, today = date.today()):
@@ -108,11 +119,11 @@ class Processing():
     @classmethod
     def get_informations_for_main(cls, today = date.today()):
         """main,  view의 home_page를 위한 정보를 얻는 최적화된 함수
-        @return: total_assigned, total_sum , list_of_category_info"""
+        @return: total_assigned, total_sum , list_of_category_info, category_json"""
         ret = {}
         ret['list_of_category_info'] = []
         categories = Category.objects.exclude(assigned = None)
-        
+        for_json = {"category":[],'assigned':[],'resid':[],'sum':[]}
         # total_assigned 계산 포함시키기
         # total_sum 계산 category_residual포함
         total_assigned = 0
@@ -120,6 +131,10 @@ class Processing():
         for cate in categories:
             cate_info = CategoryInfo(cate)
             ret['list_of_category_info'].append(cate_info)
+            for_json["category"].append(cate.name)
+            for_json['assigned'].append(cate_info.assigned) 
+            for_json['resid'].append(cate_info.resid) 
+            for_json['sum'].append(cate_info.assigned - cate_info.resid) 
             
             total_assigned += cate.assigned
             total_sum += cate.assigned - cate_info.resid
@@ -127,7 +142,8 @@ class Processing():
         ret["total_assigned"] = total_assigned
         ret["total_sum"] = total_sum
         ret["total_residual"] = total_assigned - total_sum 
-        
+        ret["category_json"] = str(json.dumps(for_json))
+        print(ret["category_json"])
         return ret
 
     # @classmethod

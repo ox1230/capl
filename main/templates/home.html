@@ -20,15 +20,37 @@
 </div>
 {%endblock first_row_block %}
 
+
+
+{%block between_row %}
+
+
+
+
+<script>
+    var cate_json = '{{category_json}}';
+    cate_json = cate_json.replace(/&quot;/gi, '"');
+
+    cate_infos = jQuery.parseJSON(cate_json);
+</script>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src = "/static/js/visualize_main.js"></script>
+<link rel = "stylesheet" href = "/static/css/visualize.css">
+{%endblock between_row %}
+
+
+
+
 {%block second_row_block%}
 <h5>분류별 목표달성 상황</h5>
 <table id = "detail_box" class = "text-center table table-borderless">
     <thead>
         <th class = "text-center">분류</th>
-        <th> 목표 </th>
+        <th class = "text-center"> 소비 목표 </th>
         <th class = "text-center">남은 돈 <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-placement="top" 
             title="Cash Planner에서는 각 분류별로 소비 목표를 정합니다. '남은 돈'은 소비 목표에서 이번주에 쓴 돈을 빼고 남은 돈을 의미합니다."
-            data-content= "현재 각 분류별 목표는 10만원으로 설정되어 있습니다. 분류별 설정 기능은 추가 예정입니다."></span></th>
+            data-content= "분류별 설정 기능은 추가 예정입니다."></span></th>
         
         <th class = "text-center">오늘 쓸 돈 <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-placement="top" 
             title="'오늘 쓸 돈'은 이번주 소비 목표를 달성하려면 하루에 얼마씩 써야 하는 지 표시합니다."></span></th>
