@@ -109,10 +109,10 @@ function setUpForMain(){
         .attr('stroke', 'black')
         .attr('stroke-width', 5)
         .attr("x1",function(d,i){
-            return xScale(i) + (Xscale.bandwidth()-bar_width)/2;
+            return xScale(i) + (xScale.bandwidth()-bar_width)/2;
         })
         .attr("x2", function(d,i){
-            return xScale(i) + (Xscale.bandwidth()-bar_width)/2 + bar_width ;
+            return xScale(i) + (xScale.bandwidth()-bar_width)/2 + bar_width ;
         })
         .attr("y1",function(d){
             return yScale(d);
