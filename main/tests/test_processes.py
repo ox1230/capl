@@ -27,7 +27,7 @@ class ProcessingTest(TestCase):
         self.assertNotIn(cate, all_cates)
         self.assertNotIn(hist, all_histes)
 
-        self.assertEqual(all_cates.count(), 3)
+        self.assertEqual(all_cates.count(), 4)
         self.assertEqual(all_histes.count(), 3)
 
     def test_can_process_total_assigned(self):

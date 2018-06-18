@@ -49,15 +49,21 @@ def show_history(request:HttpRequest):
     
     week_days = WeekAndDay.get_week_start_and_end_date()
 
-    histories = History.objects.filter(written_date__range = week_days)
-    this_week_history = {}
+    histories = History.objects.filter(written_date__range = week_days).order_by('-written_date')
+    
+    this_week_history = []
+    
     for hist in histories:
-        this_week_history[hist] = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
+        hist.date_str_form = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
+        this_week_history.append(hist)
 
-    histories = History.objects.exclude(written_date__range = week_days)
-    long_ago_history = {}
+    print(this_week_history[0].date_str_form)
+    
+    histories = History.objects.exclude(written_date__range = week_days).order_by('-written_date')
+    long_ago_history = []
     for hist in histories:
-        long_ago_history[hist] = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
+        hist.date_str_form = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
+        long_ago_history.append(hist)
     
     
 

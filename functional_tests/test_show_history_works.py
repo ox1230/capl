@@ -29,7 +29,7 @@ class AlreadyVisitorTest(FunctionalTest):
     self.assertIn("{} 세끼 학식 2700원".format(self.date_of_a_week_ago.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)), long_ago)
     self.assertIn("{} 기타 JAVA의 정석 15500원".format(self.date_of_a_week_ago.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)), long_ago)
 
-  # 바로 기록하기를 눌러 기본 데이터를 추가한다.
+   # 바로 기록하기를 눌러 기본 데이터를 추가한다.
     self.add_new_history(cate = "군것질", name = "키위바나나", price = 2000)
 
     #다시 "얼마나 썼지?"에 가보니 이번주의 데이터가 추가되어 있다.

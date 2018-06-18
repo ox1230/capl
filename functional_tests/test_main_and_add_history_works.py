@@ -28,12 +28,12 @@ class AlreadyVisitorTest(FunctionalTest):
        
         rows_text = self.find_rows_from_table_id("present_box")
         self.assertIn('사용한 돈 2000원', rows_text)
-        self.assertIn('남은 돈 298000원', rows_text )
+        self.assertIn('남은 돈 268000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 98000원 {}원'.format(100000// (7-self.weekday) - 2000), rows_text)
-        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
-        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('군것질 30000원 28000원 {}원'.format(30000// (7-self.weekday) - 2000), rows_text)
+        self.assertIn('세끼 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
 
     def test_can_go_to_main_by_button(self):
@@ -54,12 +54,12 @@ class AlreadyVisitorTest(FunctionalTest):
         time.sleep(1)
         rows_text = self.find_rows_from_table_id("present_box")
         self.assertIn('사용한 돈 0원', rows_text)
-        self.assertIn('남은 돈 300000원', rows_text )
+        self.assertIn('남은 돈 270000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
-        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
-        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('군것질 30000원 30000원 {}원'.format(30000// (7-self.weekday)), rows_text)
+        self.assertIn('세끼 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
     
 class HalbuTest(FunctionalTest):
     def test_add_history_and_halbu_works(self):
@@ -71,12 +71,12 @@ class HalbuTest(FunctionalTest):
         #5주이므로 2000원어치만 표시되어 있다.
         rows_text = self.find_rows_from_table_id("present_box")
         self.assertIn('사용한 돈 2000원', rows_text)
-        self.assertIn('남은 돈 298000원', rows_text )
+        self.assertIn('남은 돈 268000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 98000원 {}원'.format(100000 // (7-self.weekday) - 2000), rows_text)
-        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
-        self.assertIn('기타 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('군것질 30000원 28000원 {}원'.format(30000 // (7-self.weekday) - 2000), rows_text)
+        self.assertIn('세끼 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
 
 
         #에디스는 저번주에 구입한 맥심 모카골드 12000원 짜리를 12주 할부 처리한다.
@@ -85,9 +85,9 @@ class HalbuTest(FunctionalTest):
         #메인메뉴에는 1000원짜리로 기록되어 있다.
         rows_text = self.find_rows_from_table_id("present_box")
         self.assertIn('사용한 돈 3000원', rows_text)
-        self.assertIn('남은 돈 297000원', rows_text )
+        self.assertIn('남은 돈 267000원', rows_text )
 
         rows_text =  self.find_rows_from_table_id('detail_box')
-        self.assertIn('군것질 98000원 {}원'.format(100000// (7-self.weekday) - 2000), rows_text)
-        self.assertIn('세끼 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
-        self.assertIn('기타 99000원 {}원'.format(99000// (7-self.weekday)) , rows_text)
+        self.assertIn('군것질 30000원 28000원 {}원'.format(30000// (7-self.weekday) - 2000), rows_text)
+        self.assertIn('세끼 100000원 100000원 {}원'.format(100000// (7-self.weekday)), rows_text)
+        self.assertIn('기타 100000원 99000원 {}원'.format(99000// (7-self.weekday)) , rows_text)

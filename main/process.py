@@ -11,10 +11,10 @@ def db_reset():
     if Category.objects.count() >0 : Category.objects.all().delete()
 
     #미리 설정되어 있는 데이터
-    Category.objects.create(name = '군것질', assigned = 100000)
+    Category.objects.create(name = '군것질', assigned = 30000)
     cate_seggi = Category.objects.create(name = '세끼', assigned = 100000)
     cate_gita = Category.objects.create(name = '기타', assigned = 100000)
-
+    Category.objects.create(name ="교통비", assigned = 40000)
 
     #저번주의 데이터가 이미 들어가 있다.
     History.objects.create(category= cate_seggi, price = 2000, name = "우라" ,written_date = date.today() + timedelta(days = -7)  )
@@ -143,7 +143,7 @@ class Processing():
         ret["total_sum"] = total_sum
         ret["total_residual"] = total_assigned - total_sum 
         ret["category_json"] = str(json.dumps(for_json))
-        print(ret["category_json"])
+       
         return ret
 
     # @classmethod

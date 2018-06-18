@@ -47,7 +47,7 @@ class MainViewTest(TestCase):
         
         self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
     
-    def test_db_reset(self):
+    def test_db_reset_page(self):
         cate = Category.objects.create(name = 'test')
 
         response = self.client.get('/reset/')  
@@ -55,7 +55,7 @@ class MainViewTest(TestCase):
         cates = Category.objects.all()
 
         self.assertNotIn(cate, cates)
-        self.assertEqual(cates.count(), 3)
+        self.assertEqual(cates.count(), 4)
 
         self.assertRedirects(response, '/main/')
 

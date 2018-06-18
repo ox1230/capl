@@ -109,10 +109,10 @@ function setUpForMain(){
         .attr('stroke', 'black')
         .attr('stroke-width', 5)
         .attr("x1",function(d,i){
-            return xScale(i) + 5;
+            return xScale(i) + (Xscale.bandwidth()-bar_width)/2;
         })
         .attr("x2", function(d,i){
-            return xScale(i) + xScale.bandwidth() - 5;
+            return xScale(i) + (Xscale.bandwidth()-bar_width)/2 + bar_width ;
         })
         .attr("y1",function(d){
             return yScale(d);
@@ -154,18 +154,9 @@ function setUpForMain(){
         })
         .attr("y", function(d,i){
             if(d<0) return yScale(cate_infos['assigned'][i]) -13;
-            else return yScale(cate_infos['sum'][i]) - 13;    // sum시작위치 - 자신의 길이.
+            else return yScale(cate_infos['assigned'][i]) +13;   
         })
         .attr("text-anchor","middle")
         .attr("fill", "white")
     ;
-    
-    // 범례 표시
-    legend = svg.append("g")
-    .attr("class","legend")
-    .attr("transform","translate(50,30)")
-    .style("font-size","12px")
-    .call(d3.legend)
-    ;
-    
 }
