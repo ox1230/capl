@@ -15,11 +15,20 @@ function setUp(){
     margin = {top:0, left:30, right:0, bottom: 30};
     bar_padding = 20;
     
+
 };
 
 function setUpForMain(){
     //main을 위한 셋업
     
+    // 제목 추가
+    svg.append("text")
+        .text("분류별 목표달성 상황")
+        .attr("text-anchor","middle")
+        .attr("x", W/2 + margin.left - margin.right)
+        .attr("y", 20)
+    ;
+
     N = cate_infos['category'].length;
     bar_width = 0;
     //scale 만들기
@@ -84,7 +93,7 @@ function setUpForMain(){
         .enter()
         .append("rect")
         .attr("class", function(d){
-            if(d<0) return "resid-rect resid-rect-danger"
+            if(d<0) return "resid-rect resid-danger-rect"
             else return "resid-rect"
         })
         .attr("width", bar_width)
@@ -106,8 +115,7 @@ function setUpForMain(){
         .data(cate_infos['assigned'])
         .enter()
         .append("line")
-        .attr('stroke', 'black')
-        .attr('stroke-width', 5)
+        .attr("class", "assigned-line")
         .attr("x1",function(d,i){
             return xScale(i) + (xScale.bandwidth()-bar_width)/2;
         })
@@ -139,7 +147,6 @@ function setUpForMain(){
             return H-margin.bottom - 5;
         })
         .attr("text-anchor","middle")
-        .attr("fill", "white")
     ;
     svg.selectAll("resid-text")
         .data(cate_infos['resid'])
@@ -157,6 +164,31 @@ function setUpForMain(){
             else return yScale(cate_infos['assigned'][i]) +13;   
         })
         .attr("text-anchor","middle")
-        .attr("fill", "white")
     ;
+
+
+    // 범례 추가하기
+    var types = ['사용한 돈', '남은 돈' ,'초과한 돈']; // 범례 내용
+    var types_en = ['sum', 'resid', 'resid-danger']; // 범례 
+
+    var legend = svg.append("g") 
+            .attr("text-anchor", "end") 
+            .selectAll("g") 
+            .data(types) 
+            .enter()
+            .append("g") 
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; }); 
+            
+    legend.append("rect") 
+            .attr("x", W - 20) 
+            .attr("width", 19) 
+            .attr("height", 19)
+            .attr("class", function(d,i){return types_en[i] + "-rect"}); 
+    
+    legend.append("text") 
+        .attr("x", W - 30) 
+        .attr("y", 9.5) 
+        .attr("dy", "0.32em") 
+        .text(function(d) { return d;});
+
 }

@@ -57,7 +57,7 @@ def show_history(request:HttpRequest):
         hist.date_str_form = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
         this_week_history.append(hist)
 
-    print(this_week_history[0].date_str_form)
+    #print(this_week_history[0].date_str_form)
     
     histories = History.objects.exclude(written_date__range = week_days).order_by('-written_date')
     long_ago_history = []

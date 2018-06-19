@@ -1,11 +1,20 @@
+text.graph-name{
+    x : 150px;
+    y : 40px;
+}
 rect.resid-rect{
-    fill : #22b24c;
+    fill : #99E265;
 }
 
-rect.resid-rect-danger{
-    fill : #f57a00;
+rect.resid-danger-rect{
+    fill : #F25D53;
 }
 
 rect.sum-rect{
-    fill : #264c73;
+    fill : #49B3A4;
+}
+
+line.assigned-line{
+    stroke: #2E3C48;
+    stroke-width: 5px;
 }
