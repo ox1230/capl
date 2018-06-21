@@ -76,7 +76,6 @@ class AlreadyVisitorTest(FunctionalTest):
           self.find_rows_from_table_id("this_week_history_box")
     )
   
-
 class ClassroomTest(FunctionalTest):
       
   def test_week_start_and_end_date_are_displayed(self):

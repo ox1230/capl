@@ -35,7 +35,18 @@
 </div>
 {% endblock first_row_block%}
 {%block between_row %}
-추가중
+<svg id ="graph-canvas" class =  "col-xs-12" height = "500">
+
+</svg>
+
+<script>
+    var cate_json = '{{category_json}}';
+    cate_json = cate_json.replace(/&quot;/gi, '"');
+
+    cate_infos = jQuery.parseJSON(cate_json);
+</script>
+
+
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <link rel = "stylesheet" href = "/static/css/visualize.css">
 <script src="/static/js/visualize_add_history.js" charset="UTF-8"></script>

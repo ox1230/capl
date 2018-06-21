@@ -3,7 +3,7 @@ from django.urls import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page
-from main.models import Category, History
+from main.models import Category, History , HalbuHistory
 from main.process import db_reset, Processing, CategoryInfo, WeekAndDay
 from main.forms import HistoryForm
 
@@ -76,6 +76,41 @@ class ProcessingTest(TestCase):
         self.assertEqual(infos_main['total_assigned'], 10000)
         self.assertEqual(infos_main['total_sum'], 2800)
         self.assertEqual(infos_main['total_residual'], 10000- 1200 - 1600)
+    
+    def test_data_for_add_history_visualization(self):
+        """add_history를 위한 data rendering 하기:   {category이름: [assign,[20주치 residual 데이터]]순으로  }으로 되어야 한다. """
+        cate1 = Category.objects.create(name ="c1", assigned = 10000)
+
+        #이번주 순수 금액 추가
+        form = HistoryForm(data = {'category':cate1.id, 'price': 2000, 'written_date': date.today(), 'name': 'h1'})
+        form.save()
+        
+        form2 = HistoryForm(data = {'category':cate1.id, 'price': 21000, 'written_date': date.today() + timedelta(days= -7) , 'name': 'h2', 'halbu_week':21})
+        # 1주일 전것 추가\(할부 21주:   각주당 1000원)
+        form2.save()
+
+        form3 = HistoryForm(data = {'category':cate1.id, 'price': 10000, 'written_date': date.today(), 'name': 'h3', 'halbu_week':10})
+        # (할부 10주:   각주당 1000원)
+        form3.save()
+
+        # show_history를 위한 데이터 얻기
+        data = Processing.get_informations_for_add_history(today = date.today()) 
+
+        json_data = data['json']
+
+        expected_list = [6000]
+        for i in range(9):
+            expected_list.append(8000)
+        for i in range(10):
+            expected_list.append(9000)
+
+
+        self.assertJSONEqual(
+             json_data,
+            {'c1':[10000, expected_list]}
+        )
+
+
 
 
 class CategoryInfoTest(TestCase):

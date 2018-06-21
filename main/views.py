@@ -43,6 +43,7 @@ def add_history(request:HttpRequest):
 
     return render(request, 'add_history.html',{
         'add_history_form' : form,
+         'category_json' : Processing.get_informations_for_add_history()['json']
     })
 
 def show_history(request:HttpRequest):
@@ -57,21 +58,21 @@ def show_history(request:HttpRequest):
         hist.date_str_form = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
         this_week_history.append(hist)
 
-    #print(this_week_history[0].date_str_form)
+  
     
     histories = History.objects.exclude(written_date__range = week_days).order_by('-written_date')
     long_ago_history = []
     for hist in histories:
         hist.date_str_form = hist.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)
         long_ago_history.append(hist)
-    
-    
+
 
     return  render(request, 'show_history.html',{
         'this_week_history' : this_week_history,
         'long_ago_history' : long_ago_history,
         'week_start_date': week_days[0].strftime(NORMAL_DATE_FORMAT),
         'week_end_date': week_days[1].strftime(NORMAL_DATE_FORMAT),
+       
     })
 
 def delete_history(request:HttpRequest):

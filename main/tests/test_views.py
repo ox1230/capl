@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from main.views import home_page,show_history, NORMAL_DATE_FORMAT, WITHOUT_WEEKDAY_DATE_FORMAT
 from main.models import Category, History
-from main.process import Processing, CategoryInfo
+from main.process import Processing, CategoryInfo , WeekAndDay
 from datetime import date, timedelta
 
 from unittest import skip
@@ -27,25 +27,6 @@ class MainViewTest(TestCase):
         })  
 
         self.assertRedirects(response, '/main/')
-
-
-    def test_home_page_returns_correct_html_first(self):        
-        cate = Category.objects.create(name = 'test', assigned = 100000)
-
-        
-        request = HttpRequest()      # 사용자가 보낸 요청 확인
-        response = home_page(request)   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
-        
-
-        expected_html = render_to_string('home.html', request = request, context = 
-        {
-            'today_date': date.today().strftime(NORMAL_DATE_FORMAT),   #현재시간이 나오는지까지 확인
-            'total_sum': 0 ,
-            'residual': 100000,
-            'list_of_category_info': [CategoryInfo(cate)],
-        })
-        
-        self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
     
     def test_db_reset_page(self):
         cate = Category.objects.create(name = 'test')
@@ -97,28 +78,6 @@ class AddhistoryTest(TestCase):
 
 
 class ShowHistoryTest(TestCase):
-    
-    def test_show_history_returns_correct_html(self):        
-        cate = Category.objects.create(name = 'test', assigned = 100000)
-
-        this_week_history = History.objects.create(category= cate, price = 2700, name = "first_item" ,written_date = date.today() )
-        ago_history = History.objects.create(category= cate, price = 2000, name = "second_item" ,written_date = date.today() + timedelta(days = -7)  )
-        
-             # 사용자가 보낸 요청 확인
-        request = HttpRequest()
-        response =  self.client.get("/show_history/")   # 이것을 뷰 home_page에 전달     리턴값: HttpResponse
-        
-
-        expected_html = render_to_string('show_history.html', request = request, context = 
-        {
-            'this_week_history' : {this_week_history: this_week_history.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)},
-            'long_ago_history' : {ago_history: ago_history.written_date.strftime(WITHOUT_WEEKDAY_DATE_FORMAT)},
-        })
-        
-        self.assertEqual(remove_csrf_tag(response.content.decode()),remove_csrf_tag(expected_html))
-
-        self.assertContains(response, "first_item")
-        self.assertContains(response, "second_item")
 
     def test_delete_history_delete_it_and_returns_correct_html(self):
         cate = Category.objects.create(name = 'test', assigned = 100000)

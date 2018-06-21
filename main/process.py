@@ -72,7 +72,7 @@ class CategoryInfo:
         ret = sum([hist.price//hist.halbu_week for hist in hists_of_cate])   # halbu_week는 반드시 1로!!
         
         hists_of_cate_in_halbu = HalbuHistory.objects.filter( category = cate,
-            second_week_date__lte = date.today(), last_week_date__gte = date.today())
+            second_week_date__lte = today, last_week_date__gte = today)
         
         ret += sum([halbu.depre for halbu in hists_of_cate_in_halbu])
 
@@ -144,6 +144,27 @@ class Processing():
         ret["total_residual"] = total_assigned - total_sum 
         ret["category_json"] = str(json.dumps(for_json))
        
+        return ret
+    
+    @classmethod
+    def get_informations_for_add_history(cls, today = date.today()):
+        """add history를 위한 data를 만든다.
+        일단 return값:  {'json' : {카테고리 이름:  [assigned, [20주치 residual 리스트]]}의 json형식} """
+        ret = {}
+        
+        #json을 위한 데이터 만들기
+        for_json = {}
+        cate_list = [cate for cate in Category.objects.exclude(assigned = None)]
+
+        for cate in cate_list:
+            L = []    #residual 저장
+            for d in range(20):
+                L.append(CategoryInfo.get_category_residual(cate, today = today + timedelta(days= d*7)))
+
+            for_json[cate.name] = [cate.assigned,L]
+
+        ret['json'] =  str(json.dumps(for_json))
+
         return ret
 
     # @classmethod

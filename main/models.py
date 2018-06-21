@@ -22,7 +22,7 @@ class History(models.Model):
         return reverse('add_history')
 
     def __str__(self):
-        return "{} {} {} {}".format(self.written_date.strftime("%Y-%m-%d"), self.category, self.name, self.price)
+        return "{} {} {} {}/{}".format(self.written_date.strftime("%Y-%m-%d"), self.category, self.name, self.price, self.halbu_week)
 
 class HalbuHistory(models.Model):
     history = models.ForeignKey(History, default = None , on_delete = models.CASCADE)
@@ -30,3 +30,6 @@ class HalbuHistory(models.Model):
     second_week_date = models.DateField(default = date.today() + timedelta(days = 7))
     last_week_date = models.DateField(default = date.today() + timedelta(days = 7))
     depre = models.PositiveIntegerField(default = 0)
+
+    def __str__(self):
+        return "{} {}~{}".format(self.history, self.second_week_date, self.last_week_date)

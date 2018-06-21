@@ -18,3 +18,10 @@ line.assigned-line{
     stroke: #2E3C48;
     stroke-width: 5px;
 }
+
+path.cate-resid {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
+  

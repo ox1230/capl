@@ -94,6 +94,12 @@
             </div>
         </div>
     </div>
+    <script>
+        var cate_json = '"c1": [100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000], "c2": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]';
+        cate_json = cate_json.replace(/&quot;/gi, '"');
+    
+        cate_infos = jQuery.parseJSON(cate_json);
+    </script>
 
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <script type= "text/javascript" src = "../js/bootstrap.min.js"> </script>
@@ -138,7 +144,13 @@
 
             data_inputed();
             setTimeout(notEqual($('#graph').attr("class"), "collapse", "데이터 입력 후 data_inputed실행"), 1500);
+
+            data_inputed();
+            setTimeout(notEqual($('#graph').attr("class"), "collapse", "이미 열렸으면 닫지 말아야 한다"), 1500);
+
         });
+
+        
     </script>
 </body>
 
