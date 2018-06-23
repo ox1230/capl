@@ -17,11 +17,20 @@ rect.sum-rect{
 line.assigned-line{
     stroke: #2E3C48;
     stroke-width: 5px;
+    stroke-dasharray: 5;
 }
 
-path.cate-resid {
+.cate-resid {
     fill: none;
-    stroke: steelblue;
+    stroke: #99E265;
     stroke-width: 2px;
-  }
-  
+}
+
+circle.cate-resid-point{
+    fill: #49B3A4;
+
+    
+}
+.cate-resid-text{
+    size: 2;
+}
