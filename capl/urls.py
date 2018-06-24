@@ -20,6 +20,7 @@ from main import views
 urlpatterns = [
     path('', views.root, name = "root"),
     path('reset/', views.reset, name= "reset"),
+    path('first/', views.first, name = "first"),
     path('main/', views.home_page, name= "main"),
     path('add_history/', views.add_history, name = "add_history"),
     path('show_history/', views.show_history, name = "show_history"),

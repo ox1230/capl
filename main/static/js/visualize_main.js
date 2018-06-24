@@ -12,7 +12,7 @@ function setUp(){
     svg = d3.select("#graph-canvas");
     W = $("#graph-canvas").width();
     H = $("#graph-canvas").height();
-    margin = {top:0, left:30, right:0, bottom: 30};
+    margin = {top:30, left:30, right:0, bottom: 30};
     bar_padding = 20;
     
 
@@ -26,7 +26,7 @@ function setUpForMain(){
         .text("분류별 목표달성 상황")
         .attr("text-anchor","middle")
         .attr("x", W/2 + margin.left - margin.right)
-        .attr("y", 20)
+        .attr("y", 15)
     ;
 
     N = cate_infos['category'].length;
@@ -80,7 +80,7 @@ function setUpForMain(){
         })
         .attr("width", bar_width)
         .attr("height", function(d){
-            return (H- margin.bottom - margin.top) - yScale(d);
+            return (H- margin.bottom) - yScale(d);
         })
     ;
 
@@ -98,15 +98,15 @@ function setUpForMain(){
         })
         .attr("width", bar_width)
         .attr("height", function(d,i){
-            if (d<0)   return  (H- margin.bottom - margin.top) - yScale(-d);
-            else return (H- margin.bottom - margin.top) - yScale(d);
+            if (d<0)   return  (H- margin.bottom) - yScale(-d);
+            else return (H- margin.bottom) - yScale(d);
         })
         .attr("x", function(d,i){
             return xScale(i)+ (xScale.bandwidth()-bar_width)/2;
         })
         .attr("y", function(d,i){
             if(d<0) return yScale(cate_infos['sum'][i]);    // sum과 시작위치가 같다.
-            else return yScale(cate_infos['sum'][i]) -((H- margin.bottom - margin.top) - yScale(d));   // sum시작위치 - 자신의 길이.
+            else return yScale(cate_infos['sum'][i]) -((H- margin.bottom) - yScale(d));   // sum시작위치 - 자신의 길이.
         })
         
     ;
@@ -161,7 +161,7 @@ function setUpForMain(){
         })
         .attr("y", function(d,i){
             if(d<0) return yScale(cate_infos['assigned'][i]) -13;
-            else return yScale(cate_infos['assigned'][i]) +13;   
+            else return yScale(cate_infos['assigned'][i]) +15;   
         })
         .attr("text-anchor","middle")
     ;
@@ -177,7 +177,7 @@ function setUpForMain(){
             .data(types) 
             .enter()
             .append("g") 
-            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; }); 
+            .attr("transform", function(d, i) { return "translate(0," + (i * 20 + margin.top) + ")"; }); 
             
     legend.append("rect") 
             .attr("x", W - 20) 

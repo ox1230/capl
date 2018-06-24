@@ -10,7 +10,8 @@
 .table-borderless > thead > tr > th {
     border: none;
     padding: 3px;
-
+    padding-bottom: 1px;
+    text-align: center;
 }
 .table-borderless > thead{
     font-weight:bold; 
@@ -18,4 +19,9 @@
 
 .text-super-warning{
     color : #f57a00;
+}
+
+.no-margin{
+    margin-top: 0;
+    margin-bottom: 0;
 }

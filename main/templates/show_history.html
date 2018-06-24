@@ -9,19 +9,20 @@
 
 
 {% block first_row_block %}
-<h3>이번주 내역</h3>
-<small id = "week_start_and_end_date" class = "text-muted"> {{ week_start_date }} ~ {{ week_end_date }} </small> 
+<h3 class = "no-margin">이번주 내역</h3>
+<small id = "week_start_and_end_date" class = "text-muted"> {{ week_start_date }} ~ {{ week_end_date }} </small>
+<br> 
 <div class = "text-center">
     <table id = "this_week_history_box" class = "col-xs-12 table table-borderless">
-        <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th></tr>
+        <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th>수정/삭제</th></tr>
         {% for hist in this_week_history %}
             {% if hist.halbu_week >= 2%}
             {% comment %} 나만의 할부 적용시에만 나타남  {% endcomment %}
-            <tr class = "text-muted for-halbu">
+            <tr class = "text-muted for-halbu no-margin">
                 <td></td>
                 <td></td>
                 <td>
-                    <small>┌─ {{hist.halbu_week}}주 할부</small>
+                    <small>┌ {{hist.halbu_week}}주 할부</small>
                 </td>
                 <td id = '{{hist.date_str_form}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_halbu_price'>
                 </td>
@@ -64,15 +65,15 @@
 {% block second_row_block%}
 <h3>그 전 내역</h3>
 <table id = "long_ago_history_box" class = "col-xs-12 table table-borderless">
-        <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th></th></tr>
+        <tr><th>날짜</td><th>분류</td><th>내용</td><th>금액</th><th>수정/삭제</th></tr>
         {% for hist in long_ago_history %}
             {% if hist.halbu_week >= 2 %}
             {% comment %} 나만의 할부 적용시에만 나타남  {% endcomment %}
-            <tr class = "text-muted for-halbu">
+            <tr class = "text-muted for-halbu no-margin">
                 <td></td>
                 <td></td>
                 <td>
-                    <small>┌─ {{hist.halbu_week}}주 할부</small>
+                    <small>┌ {{hist.halbu_week}}주 할부</small>
                 </td>
                 <td id = '{{hist.date_str_form}}_{{hist.category}}_{{hist.name}}_{{hist.price}}_halbu_price'>
                 </td>

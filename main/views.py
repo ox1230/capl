@@ -11,7 +11,7 @@ NORMAL_DATE_FORMAT = "%Y-%m-%d %A"
 WITHOUT_WEEKDAY_DATE_FORMAT = "%m-%d"
 
 def root(request:HttpRequest):
-    return redirect('main')
+    return redirect('first')
 
 def reset(request : HttpRequest):
     db_reset()
@@ -31,6 +31,9 @@ def home_page(request:HttpRequest):
         'list_of_category_info': infos_of_main['list_of_category_info'],
         'category_json' : infos_of_main['category_json'],
     })
+
+def first(request:HttpRequest):
+    return render(request, 'first.html')
 
 def add_history(request:HttpRequest):
     form = HistoryForm()

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+소개
+{% endblock title %}
+
+{% block first_row_block%}
+<small>
+    Cash Planner는 사용자의 소비 목표 달성을 돕는 가계부 사이트입니다.
+    교통비, 식비 등 분류별로 주별 목표 소비 금액을 정하고,
+    Cash Planner를 통해 현재 목표 달성 정도는 어느정도인지, 목표 달성을 위해 
+    앞으로 얼마나 절약해야하는 지를 확인할 수 있습니다. 
+</small>
+
+<br>
+<a href = "{% url 'main' %}" id = "go_to_main" role = "button" class = "btn btn-default col-xs-4 col-xs-offset-4" >둘러보기</a>
+{% endblock first_row_block %}
