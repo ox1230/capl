@@ -42,7 +42,7 @@ function setUpForMain(){
                 .rangeRound([margin.left, W- margin.right]);
 
     yScale = d3.scaleLinear()
-            .domain([0,d3.max(cate_infos['assigned']) * 1.5 ])
+            .domain([0,d3.max(cate_infos['assigned']) * 1.2 ])
             .range([H - margin.bottom ,margin.top]);
 
     bar_width = xScale.bandwidth()*0.6;
